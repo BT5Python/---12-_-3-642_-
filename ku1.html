@@ -386,7 +386,9 @@ function typeWriter(element, text, agent, callback, speed = 10) {
                 .map(line => {
                     // Penyorotan warna
                     if (line.includes("[DATA IDENTITAS]") ||
-                        line.includes("[DATA KELUARGA]") ||                        
+                        line.includes("[DATA DIKUMTI & DIKMILTI]") ||
+                        line.includes("[DATA KGB]") ||
+                        line.includes("[DATA JABATAN]") ||
                         line.includes("[SECURITY FOOTNOTE]") ||
                         line.includes("[TANDA JASA/KEHORMATAN]")) {
                         return `<span class="highlight-section">${line}</span>`;
@@ -507,20 +509,36 @@ function displayAgent(agent) {
 
 [DATA IDENTITAS]
 --------------------------------------------------
-NAMA LENGKAP            : ${agent.nama_lengkap || "-"}
-PANGKAT                 : ${agent.pangkat || "-"}
-NRP/NIP                 : ${agent.nrp_nip || "-"}
-TEMPAT/TGL LAHIR        : ${agent.tempat_lahir || "-"}, ${formatTanggalIndonesia(agent.tanggal_lahir)}
-USIA                    : ${usia} Tahun
-GOL DARAH               : ${agent.gol_darah || "-"}
-AGAMA                   : ${agent.agama || "-"}
+NAMA LENGKAP        : ${agent.nama_lengkap || "-"}
+PANGKAT             : ${agent.pangkat || "-"}
+NRP/NIP             : ${agent.nrp_nip || "-"}
+TEMPAT/TGL LAHIR    : ${agent.tempat_lahir || "-"}, ${formatTanggalIndonesia(agent.tanggal_lahir)}
+USIA                : ${usia} Tahun
+GOL DARAH           : ${agent.gol_darah || "-"}
+AGAMA               : ${agent.agama || "-"}
 
-[DATA KELUARGA]
+[DATA DIKUMTI & DIKMILTI]
 --------------------------------------------------
-NAMA ISTRI/NAMA SUAMI   : ${agent.nama istri/nama suami || "-"}
-ANAK KE-1               : ${formatTanggalIndonesia(agent.tmt_dikumti)}
-ANAK KE-2               : ${agent.dikmilti || "-"}
-ANAK KE-3               : ${formatTanggalIndonesia(agent.tmt_dikmilti)}
+DIKUMTI             : ${agent.dikumti || "-"}
+TMT DIKUMTI         : ${formatTanggalIndonesia(agent.tmt_dikumti)}
+DIKMILTI            : ${agent.dikmilti || "-"}
+TMT DIKMILTI        : ${formatTanggalIndonesia(agent.tmt_dikmilti)}
+
+[DATA JABATAN]
+--------------------------------------------------
+JABATAN YG LALU     : ${agent.jabatan_yg_lalu || "-"}
+JABATAN SAAT INI    : ${agent.jab_saat_ini || "-"}
+TMT JABATAN         : ${formatTanggalIndonesia(agent.tmt_jabatan_saat_ini)}
+MASA KERJA JABATAN  : ${masaKerja}
+
+[DATA KGB]
+--------------------------------------------------
+TMT KGB TERAKHIR    : ${formatTanggalIndonesia(agent.tmt_kgb)}
+KGB BERIKUTNYA      : ${nextKGBInfo}
+
+[TANDA JASA/KEHORMATAN]
+--------------------------------------------------
+${agent.tanda_jasa || "Tidak ada data"}
 
 [SECURITY FOOTNOTE]   <button class="catatan-btn" onclick="window.location='catatanpersonel.html?nama='+encodeURIComponent('${agent.nama_lengkap}')">CATATAN</button>
 -----------------------------------------------------
@@ -666,4 +684,3 @@ document.addEventListener("click", function() {
 
 </body>
 </html>
-
