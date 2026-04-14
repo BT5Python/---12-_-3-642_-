@@ -507,7 +507,6 @@ NRP/NIP              : ${agent.nrp_nip || "-"}
 NO NIK               : ${agent["no_nik"] || "-"}
 NO KTA TNI/PNS       : ${agent["no_kta_tni/pns"] || "-"}
 DI KELUARKAN TGL     : ${formatTanggalIndonesia(agent["di_keluarkan_tgl"]) }
-JABATAN              : ${agent.jabatan || "-"}
 SATKER               : ${agent.satker || "-"}
 KORPS/SPESIALISASI   : ${agent.korp_fung_spes || "-"}
 NO SKEP PENGANGKATAN : ${agent.no_skep_pengangkatan || "-"}
@@ -519,6 +518,7 @@ USIA                 : ${usia} Tahun
 
 [DATA JABATAN]
 --------------------------------------------------
+JABATAN              : ${agent.jabatan || "-"}
 NOMOR SKEP           : ${agent.nomer_skep || "-"}
 TMT JABATAN          : ${formatTanggalIndonesia(agent.tmt_jabatan)}
 MASA JABATAN         : ${masaKerja}
