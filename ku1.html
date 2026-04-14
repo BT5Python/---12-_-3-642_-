@@ -522,22 +522,6 @@ ANAK KE-1           : ${formatTanggalIndonesia(agent.tmt_dikumti)}
 ANAK KE-2           : ${agent.dikmilti || "-"}
 ANAK KE-3           : ${formatTanggalIndonesia(agent.tmt_dikmilti)}
 
-[DATA JABATAN]
---------------------------------------------------
-JABATAN YG LALU     : ${agent.jabatan_yg_lalu || "-"}
-JABATAN SAAT INI    : ${agent.jab_saat_ini || "-"}
-TMT JABATAN         : ${formatTanggalIndonesia(agent.tmt_jabatan_saat_ini)}
-MASA KERJA JABATAN  : ${masaKerja}
-
-[DATA KGB]
---------------------------------------------------
-TMT KGB TERAKHIR    : ${formatTanggalIndonesia(agent.tmt_kgb)}
-KGB BERIKUTNYA      : ${nextKGBInfo}
-
-[TANDA JASA/KEHORMATAN]
---------------------------------------------------
-${agent.tanda_jasa || "Tidak ada data"}
-
 [SECURITY FOOTNOTE]   <button class="catatan-btn" onclick="window.location='catatanpersonel.html?nama='+encodeURIComponent('${agent.nama_lengkap}')">CATATAN</button>
 -----------------------------------------------------
 -----------------------------------------------------
