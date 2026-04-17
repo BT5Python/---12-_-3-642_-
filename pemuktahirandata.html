@@ -166,7 +166,7 @@ button:hover { background-color: #00FF00; color: black; }
 
 <header>
     <h1 class="text">PORTAL MONITORING TERMINAL</h1>
-    <h1 class="text1">PEMUKTAHIRAN DATA PERSONEL</h1>
+    <h1 class="text1">DATA RIWAYAT HIDUP</h1>
     <div class="header-buttons">
         <button onclick="goTo('database.html')">back to DATABASE</button>
         <button onclick="goTo('index.html')">LOGOUT</button>
@@ -215,7 +215,7 @@ function goTo(url) {
 let personnelDB = [];
 
 // URL Google Apps Script yang mengarah ke data sheet Anda
-const DATA_URL = "https://script.google.com/macros/s/AKfycby8KHc06tgLnAddyxXQlvYebpm2aXfMnA32ZaRp02ZEH6NHA-ycsGSS6uuxlQbabi4H/exec";
+const DATA_URL = "https://script.google.com/macros/s/AKfycbziCZVe24Fl2vokSkBDHFRfv8rPHoXf9BzpYm7OlbG3Bi6hbuq-nActB6y1LKcX5PGLWw/exec";
 
 fetch(DATA_URL)
   .then(res => res.json())
@@ -511,10 +511,9 @@ function displayAgent(agent) {
 --------------------------------------------------
 NAMA LENGKAP        : ${agent.nama_lengkap || "-"}
 PANGKAT             : ${agent.pangkat || "-"}
+KORP/FUNG/SPES      : ${agent.korp_fung_spes || "-"}
 NRP/NIP             : ${agent.nrp_nip || "-"}
 TEMPAT/TGL LAHIR    : ${agent.tempat_lahir || "-"}, ${formatTanggalIndonesia(agent.tanggal_lahir)}
-USIA                : ${usia} Tahun
-GOL DARAH           : ${agent.gol_darah || "-"}
 AGAMA               : ${agent.agama || "-"}
 
 [DATA DIKUMTI & DIKMILTI]
