@@ -405,7 +405,7 @@ function typeWriter(element, text, agent, callback, speed = 10) {
                 .join("\n");
 
             // *** LOGIKA TAMPIL FOTO OTOMATIS DI SINI ***
-            // Foto akan muncul saat string "nama_lengkap" telah diketik.
+            // Foto akan muncul saat string "NAMA LENGKAP" telah diketik.
             if (!nameShown && element.textContent.includes("NAMA LENGKAP")) {
                 nameShown = true;
                 setTimeout(() => {
@@ -558,7 +558,7 @@ Retrieved on: ${new Date().toLocaleString()}
 
             // Ambil link dari kolom spreadsheet
             // Ambil link riwayat hidup dari Google Sheet
-const mergedLink = agent.merged_doc_url_riwayat_hidup_personel_puslat;
+const mergedLink = agent.merged_doc_url_salinan_dari_pemuktahiran_data;
 let pdfLink = "#";
 
 if (mergedLink.includes("drive.google.com")) {
