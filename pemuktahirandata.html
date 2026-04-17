@@ -228,27 +228,27 @@ fetch(DATA_URL)
         // Logika konversi link Google Drive (dari Google Form) ke Direct Access
         
         // 1. Jika link adalah URL berbagi penuh (drive.google.com/file/d/ID/view)
-        if (photoURL.includes("drive.google.com/file/d/")) {
+        if (fotoURL.includes("drive.google.com/file/d/")) {
           // Ekstrak ID File
-          const match = photoURL.match(/\/d\/(.*?)\//);
+          const match = fotoURL.match(/\/d\/(.*?)\//);
           if (match && match[1]) {
             // Ubah ke format Direct Access
-            photoURL = `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            fotoURL = `https://drive.google.com/uc?export=view&id=${match[1]}`;
           }
         }
         // 2. Jika hanya ID (ID yang diekstrak dari Google Form)
-        else if (/^[A-Za-z0-9_-]{25,}$/.test(photoURL)) {
+        else if (/^[A-Za-z0-9_-]{25,}$/.test(fotoURL)) {
           photoURL = `https://drive.google.com/uc?export=view&id=${photoURL}`;
         }
       } else {
         // Foto default jika kolom 'foto' kosong
-        photoURL = "https://drive.google.com/uc?export=view&id=13KgFyUzOSIUhfK8qw0skSLOEq5Yj0xp2";
+        fotoURL = "https://drive.google.com/uc?export=view&id=13KgFyUzOSIUhfK8qw0skSLOEq5Yj0xp2";
       }
 
-      return { ...person, photo: photoURL };
+      return { ...person, foto: fotoURL };
     });
 
-    console.log("✅ Data loaded & photo links normalized", personnelDB);
+    console.log("✅ Data loaded & foto links normalized", personnelDB);
     populateCategoryDropdown();
   })
   .catch(err => console.error("❌ Gagal memuat data:", err));
