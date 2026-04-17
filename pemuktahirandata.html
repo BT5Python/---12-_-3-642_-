@@ -222,7 +222,7 @@ fetch(DATA_URL)
   .then(data => {
     // ✅ Bersihkan dan konversi link foto agar bisa langsung tampil
     personnelDB = data.map(person => {
-      let photoURL = person.photo?.trim() || "";
+      let photoURL = person.foto?.trim() || "";
 
       if (photoURL) {
         // Logika konversi link Google Drive (dari Google Form) ke Direct Access
