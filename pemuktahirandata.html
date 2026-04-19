@@ -507,37 +507,34 @@ function displayAgent(agent) {
 |    CLASSIFICATION: RAHASIA             |
 ========================================
 
-[DATA IDENTITAS]
+[KETERANGAN PERORANGAN]
 --------------------------------------------------
 NAMA LENGKAP        : ${agent.nama_lengkap || "-"}
 PANGKAT             : ${agent.pangkat || "-"}
 KORP/FUNG/SPES      : ${agent.korp_fung_spes || "-"}
 NRP/NIP             : ${agent.nrp_nip || "-"}
+JABATAN             : ${agent.jabatan || "-"}
 TEMPAT/TGL LAHIR    : ${agent.tempat_lahir || "-"}, ${formatTanggalIndonesia(agent.tanggal_lahir)}
 AGAMA               : ${agent.agama || "-"}
 
-[DATA DIKUMTI & DIKMILTI]
+[KETERANGAN KELUARGA]
 --------------------------------------------------
-DIKUMTI             : ${agent.dikumti || "-"}
-TMT DIKUMTI         : ${formatTanggalIndonesia(agent.tmt_dikumti)}
-DIKMILTI            : ${agent.dikmilti || "-"}
-TMT DIKMILTI        : ${formatTanggalIndonesia(agent.tmt_dikmilti)}
+NAMA ISTRI/SUAMI    : ${agent.dikumti || "-"}
+NAMA ANAK           :
+   PERTAMA          : ${formatTanggalIndonesia(agent.tmt_dikumti)}
+   KEDUA            : ${agent.dikmilti || "-"}
+   KETIGA           : ${formatTanggalIndonesia(agent.tmt_dikmilti)}
+   KEEMPAT          :
 
-[DATA JABATAN]
+[KETERANGAN ORANG TUA]
 --------------------------------------------------
-JABATAN YG LALU     : ${agent.jabatan_yg_lalu || "-"}
-JABATAN SAAT INI    : ${agent.jab_saat_ini || "-"}
-TMT JABATAN         : ${formatTanggalIndonesia(agent.tmt_jabatan_saat_ini)}
-MASA KERJA JABATAN  : ${masaKerja}
+NAMA IBU KANDUNG    : ${agent.jabatan_yg_lalu || "-"}
+NAMA BAPAK KANDUNG  : ${agent.jab_saat_ini || "-"}
 
-[DATA KGB]
+[KETERANGAN MERTUA]
 --------------------------------------------------
-TMT KGB TERAKHIR    : ${formatTanggalIndonesia(agent.tmt_kgb)}
-KGB BERIKUTNYA      : ${nextKGBInfo}
-
-[TANDA JASA/KEHORMATAN]
---------------------------------------------------
-${agent.tanda_jasa || "Tidak ada data"}
+NAMA BAPAK MERTUA   : ${formatTanggalIndonesia(agent.tmt_kgb)}
+NAMA IBU MERTUA     : ${nextKGBInfo}
 
 [SECURITY FOOTNOTE]   <button class="catatan-btn" onclick="window.location='catatanpersonel.html?nama='+encodeURIComponent('${agent.nama_lengkap}')">CATATAN</button>
 -----------------------------------------------------
