@@ -528,13 +528,13 @@ NAMA ANAK           :
 
 [KETERANGAN ORANG TUA]
 --------------------------------------------------
-NAMA IBU KANDUNG    : ${agent.jabatan_yg_lalu || "-"}
-NAMA BAPAK KANDUNG  : ${agent.jab_saat_ini || "-"}
+NAMA IBU KANDUNG    : ${agent.nama_ibu_kandung || "-"}
+NAMA BAPAK KANDUNG  : ${agent.nama_bapak_kandung || "-"}
 
 [KETERANGAN MERTUA]
 --------------------------------------------------
-NAMA BAPAK MERTUA   : ${formatTanggalIndonesia(agent.tmt_kgb)}
-NAMA IBU MERTUA     : ${nextKGBInfo}
+NAMA BAPAK MERTUA   : ${agent.nama_bapak_mertua || "-"}
+NAMA IBU MERTUA     : ${nama_ibu_mertua || "-"}
 
 [SECURITY FOOTNOTE]   <button class="catatan-btn" onclick="window.location='catatanpersonel.html?nama='+encodeURIComponent('${agent.nama_lengkap}')">CATATAN</button>
 -----------------------------------------------------
