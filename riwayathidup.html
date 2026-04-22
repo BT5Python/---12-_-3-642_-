@@ -390,7 +390,7 @@ function typeWriter(element, text, agent, callback, speed = 10) {
                         line.includes("[DATA KGB]") ||
                         line.includes("[DATA JABATAN]") ||
                         line.includes("[SECURITY FOOTNOTE]") ||
-                        line.includes("[TANDA JASA/KEHORMATAN TERTINGGI]")) {
+                        line.includes("[TANDA JASA/KEHORMATAN]")) {
                         return `<span class="highlight-section">${line}</span>`;
                     }
                     // Animasi RAHASIA
@@ -530,9 +530,10 @@ JABATAN SAAT INI    : ${agent.jab_saat_ini || "-"}
 TMT JABATAN         : ${formatTanggalIndonesia(agent.tmt_jabatan_saat_ini)}
 MASA KERJA JABATAN  : ${masaKerja}
 
-[TANDA JASA/KEHORMATAN TERTINGGI]
+[TANDA JASA/KEHORMATAN]
 --------------------------------------------------
-${agent.tanda_jasa  : ${agent.tanda_jasa_tertinggi || "-"}
+TANDA JASA/KEHORMATAN
+TERTINGGI            : ${agent.tanda_jasa  : ${agent.tanda_jasa_tertinggi || "-"}
 
 [SECURITY FOOTNOTE]   <button class="catatan-btn" onclick="window.location='catatanpersonel.html?nama='+encodeURIComponent('${agent.nama_lengkap}')">CATATAN</button>
 -----------------------------------------------------
