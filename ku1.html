@@ -510,14 +510,14 @@ function displayAgent(agent) {
 [KETERANGAN PERORANGAN]
 --------------------------------------------------
 NAMA LENGKAP        : ${agent.nama_lengkap || "-"}
-PANGKAT             : ${agent.pangkat || "-"}
+PANGKAT             : ${agent.pangkat_gol || "-"}
 NRP/NIP             : ${agent.nrp_nip || "-"}
 TEMPAT/TGL LAHIR    : ${agent.tempat_lahir || "-"}, ${formatTanggalIndonesia(agent.tanggal_lahir)}
 USIA                : ${usia} Tahun
 
 [KETERANGAN KELUARGA]
 --------------------------------------------------
-NAMA ISTRI          : ${agent.nama_istri || "-"}
+NAMA ISTRI          : ${agent.nama_suami_istri || "-"}
 NAMA ANAK
   PERTAMA           : ${agent.nama_anak_tanggungan_1 || "-"}
   KEDUA             : ${agent.nama_anak_tanggungan_2 || "-"}
