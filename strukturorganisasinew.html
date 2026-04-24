@@ -2,40 +2,86 @@
 <html>
 <head>
 <style>
-.box {
-  width: 200px;
-  border: 1px solid black;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
+body {
   font-family: Arial;
-  margin-left: 400px;
+  text-align: center;
 }
 
-.title {
+/* container sejajar */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+/* kotak */
+.box {
+  width: 180px;
+  border: 1px solid black;
+}
+
+/* baris */
+.row {
+  padding: 8px;
+}
+
+/* garis pemisah */
+.row:not(:last-child) {
+  border-bottom: 1px solid black;
+}
+
+/* style */
+.judul {
   background: #2da8d8;
   color: white;
-  padding: 5px;
+  font-weight: bold;
   font-size: 12px;
+}
+
+.nama {
   font-weight: bold;
 }
 
+.jabatan {
+  font-size: 12px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="box" onclick="show()">
-  <div class="title">KOMANDAN</div>
-  <div><b>Erwan Andrian, S.E., M.M</b></div>
-  <div style="font-size:12px;">Marsekal Pertama TNI</div>
-</div>
+<div class="wrapper">
 
-<script>
-function show(){
-  alert("Profil Komandan: Erwan Andrian");
-}
-</script>
+  <!-- KOTAK 1 -->
+  <div class="box">
+    <div class="row judul">KOTAK 1</div>
+    <div class="row nama">Nama 1</div>
+    <div class="row jabatan">Jabatan 1</div>
+  </div>
+
+  <!-- KOTAK 2 -->
+  <div class="box">
+    <div class="row judul">KOTAK 2</div>
+    <div class="row nama">Nama 2</div>
+    <div class="row jabatan">Jabatan 2</div>
+  </div>
+
+  <!-- KOTAK 3 -->
+  <div class="box">
+    <div class="row judul">KOTAK 3</div>
+    <div class="row nama">Nama 3</div>
+    <div class="row jabatan">Jabatan 3</div>
+  </div>
+
+  <!-- KOTAK 4 -->
+  <div class="box">
+    <div class="row judul">KOTAK 4</div>
+    <div class="row nama">Nama 4</div>
+    <div class="row jabatan">Jabatan 4</div>
+  </div>
+
+</div>
 
 </body>
 </html>
