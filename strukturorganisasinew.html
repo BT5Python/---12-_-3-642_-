@@ -1,153 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Struktur Organisasi</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-    }
+<style>
+.box {
+  width: 200px;
+  border: 1px solid black;
+  font-family: Arial;
+}
 
-    h2 {
-      margin-top: 30px;
-    }
+.title {
+  background: #2da8d8;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
 
-    .level {
-      margin: 20px 0;
-    }
+.content {
+  text-align: center;
+  padding: 8px;
+}
 
-    .box {
-      display: inline-block;
-      padding: 12px 20px;
-      margin: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      min-width: 120px;
-    }
+.nama {
+  font-weight: bold;
+}
 
-    .box:hover {
-      background-color: #45a049;
-    }
-
-    /* isi 2 baris */
-    .nama {
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .jabatan {
-      font-size: 12px;
-      opacity: 0.9;
-    }
-
-    /* popup */
-    .popup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-    }
-
-    .popup-content {
-      background: white;
-      padding: 20px;
-      margin: 100px auto;
-      width: 300px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .close {
-      float: right;
-      cursor: pointer;
-      color: red;
-      font-weight: bold;
-    }
-  </style>
+.jabatan {
+  font-size: 12px;
+}
+</style>
 </head>
+
 <body>
 
-<h2>Struktur Organisasi</h2>
-
-<!-- Ketua -->
-<div class="level">
-  <div class="box" onclick="showProfile('ketua')">
-    <div class="nama">Budi</div>
-    <div class="jabatan">Ketua</div>
+<div class="box">
+  <div class="title">KOMANDAN</div>
+  <div class="content">
+    <div class="nama">Erwan Andrian, S.E., M.M</div>
+    <div class="jabatan">Marsekal Pertama TNI</div>
   </div>
 </div>
-
-<!-- Wakil -->
-<div class="level">
-  <div class="box" onclick="showProfile('wakil')">
-    <div class="nama">Siti</div>
-    <div class="jabatan">Wakil Ketua</div>
-  </div>
-</div>
-
-<!-- Sekretaris & Bendahara -->
-<div class="level">
-  <div class="box" onclick="showProfile('sekretaris')">
-    <div class="nama">Andi</div>
-    <div class="jabatan">Sekretaris</div>
-  </div>
-
-  <div class="box" onclick="showProfile('bendahara')">
-    <div class="nama">Rina</div>
-    <div class="jabatan">Bendahara</div>
-  </div>
-</div>
-
-<!-- POPUP -->
-<div id="popup" class="popup">
-  <div class="popup-content">
-    <span class="close" onclick="closePopup()">X</span>
-    <h3 id="namaPopup"></h3>
-    <p id="jabatanPopup"></p>
-    <p id="deskripsiPopup"></p>
-  </div>
-</div>
-
-<script>
-function showProfile(role) {
-  let nama = "";
-  let jabatan = "";
-  let deskripsi = "";
-
-  if (role === "ketua") {
-    nama = "Budi";
-    jabatan = "Ketua";
-    deskripsi = "Memimpin dan bertanggung jawab atas organisasi.";
-  } else if (role === "wakil") {
-    nama = "Siti";
-    jabatan = "Wakil Ketua";
-    deskripsi = "Membantu ketua dalam menjalankan tugas.";
-  } else if (role === "sekretaris") {
-    nama = "Andi";
-    jabatan = "Sekretaris";
-    deskripsi = "Mengelola administrasi dan dokumentasi.";
-  } else if (role === "bendahara") {
-    nama = "Rina";
-    jabatan = "Bendahara";
-    deskripsi = "Mengatur keuangan organisasi.";
-  }
-
-  document.getElementById("namaPopup").innerText = nama;
-  document.getElementById("jabatanPopup").innerText = jabatan;
-  document.getElementById("deskripsiPopup").innerText = deskripsi;
-
-  document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-</script>
 
 </body>
 </html>
