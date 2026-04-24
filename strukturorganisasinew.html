@@ -2,15 +2,19 @@
 <html>
 <head>
 <style>
-.box {
-  width: 230px;
-  border: 1px solid black;
+body {
   font-family: Arial;
+}
+
+/* KOTAK */
+.box {
+  width: 240px;
+  border: 1px solid black;
   text-align: center;
   cursor: pointer;
 }
 
-/* tiap baris */
+/* BARIS */
 .row {
   padding: 6px;
 }
@@ -42,16 +46,24 @@
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
 }
 
 .popup-content {
   background: white;
-  width: 300px;
-  margin: 120px auto;
+  width: 320px;
+  margin: 100px auto;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+}
+
+.popup-content img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .close {
@@ -70,24 +82,27 @@
 
   <div class="row judul">KOMANDAN</div>
 
-  <div class="row nama">
-    Erwan Andrian, S.E., M.M
-  </div>
+  <div class="row nama">Erwan Andrian</div>
 
-  <div class="row jabatan">
-    Marsekal Pertama TNI
-  </div>
+  <div class="row jabatan">Marsekal Pertama TNI</div>
 
 </div>
 
 <!-- POPUP -->
 <div id="popup" class="popup">
   <div class="popup-content">
+
     <span class="close" onclick="closePopup()">X</span>
+
+    <!-- FOTO -->
+    <img src="https://via.placeholder.com/120" id="foto">
+
+    <!-- INFO -->
     <h3>Profil Komandan</h3>
     <p><b>Nama:</b> Erwan Andrian, S.E., M.M</p>
-    <p><b>Jabatan:</b> Komandan Puslat Kodiklatau</p>
-    <p>Memimpin dan bertanggung jawab atas seluruh kegiatan.</p>
+    <p><b>Jabatan:</b> Komandan Puslat</p>
+    <p>Memimpin seluruh kegiatan organisasi.</p>
+
   </div>
 </div>
 
