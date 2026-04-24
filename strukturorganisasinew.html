@@ -1,206 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Struktur Organisasi</title>
-
-<style>
-body {
-  font-family: Arial;
-  text-align: center;
-}
-
-/* TREE */
-.tree ul {
-  padding-top: 20px;
-  position: relative;
-}
-
-.tree li {
-  display: inline-block;
-  text-align: center;
-  list-style-type: none;
-  position: relative;
-  padding: 20px 10px 0 10px;
-}
-
-.tree li::before, .tree li::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  border-top: 2px solid black;
-  width: 50%;
-  height: 20px;
-}
-
-.tree li::before { right: 50%; }
-.tree li::after { left: 50%; }
-
-.tree li:only-child::before,
-.tree li:only-child::after {
-  display: none;
-}
-
-.tree ul ul::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  border-left: 2px solid black;
-  height: 20px;
-}
-
-/* BOX */
-.box {
-  border: 1px solid black;
-  display: inline-block;
-  min-width: 180px;
-  background: white;
-  cursor: pointer;
-}
-
-.title {
-  background: #2da8d8;
-  color: white;
-  padding: 5px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.nama {
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.ket {
-  font-size: 11px;
-  margin-bottom: 5px;
-}
-
-/* POPUP */
-.popup {
-  display: none;
-  position: fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0,0,0,0.5);
-}
-
-.popup-content {
-  background:white;
-  padding:20px;
-  margin:100px auto;
-  width:300px;
-  border-radius:10px;
-}
-
-.close {
-  float:right;
-  cursor:pointer;
-  color:red;
-}
-</style>
+  <title>Struktur Organisasi</title>
+  <style>
+    .box {
+      border: 1px solid black;
+      padding: 10px;
+      margin: 10px;
+      display: inline-block;
+      cursor: pointer;
+      background-color: #f0f0f0;
+    }
+  </style>
 </head>
-
 <body>
 
-<h2>KODIKLATAU - PUSLAT</h2>
+<h2>Struktur Organisasi</h2>
 
-<div class="tree">
-<ul>
+<div class="box" onclick="showInfo('ketua')">Ketua</div>
+<div class="box" onclick="showInfo('wakil')">Wakil</div>
+<div class="box" onclick="showInfo('sekretaris')">Sekretaris</div>
 
-<li>
-<div class="box" onclick="show('komandan')">
-<div class="title">KOMANDAN</div>
-<div class="nama">Erwan Andrian</div>
-<div class="ket">Marsekal Pertama TNI</div>
-</div>
-
-<ul>
-
-<!-- LEVEL 2 -->
-<li>
-<div class="box" onclick="show('kabid1')">
-<div class="title">KABIDLAT K/L</div>
-<div class="nama">Arief Tri Bawanto</div>
-</div>
-
-<ul>
-<li><div class="box" onclick="show('sub1')"><div class="title">BELANEGARA</div></div></li>
-<li><div class="box" onclick="show('sub2')"><div class="title">PIM</div></div></li>
-<li><div class="box" onclick="show('sub3')"><div class="title">PRAM</div></div></li>
-</ul>
-
-</li>
-
-<li>
-<div class="box" onclick="show('kabid2')">
-<div class="title">KABIDLATUM</div>
-<div class="nama">Handy Priantono</div>
-</div>
-
-<ul>
-<li><div class="box" onclick="show('sub4')"><div class="title">BINPOTDIRGA</div></div></li>
-<li><div class="box" onclick="show('sub5')"><div class="title">AYU</div></div></li>
-<li><div class="box" onclick="show('sub6')"><div class="title">PPRC</div></div></li>
-</ul>
-
-</li>
-
-<li>
-<div class="box" onclick="show('kabid3')">
-<div class="title">KABIDMATRA</div>
-<div class="nama">I Gusti Ngurah Adi Brata</div>
-</div>
-
-<ul>
-<li><div class="box" onclick="show('sub7')"><div class="title">GULBEN</div></div></li>
-<li><div class="box" onclick="show('sub8')"><div class="title">DAMKAR</div></div></li>
-<li><div class="box" onclick="show('sub9')"><div class="title">LATKER</div></div></li>
-</ul>
-
-</li>
-
-</ul>
-</li>
-
-</ul>
-</div>
-
-<!-- POPUP -->
-<div id="popup" class="popup">
-<div class="popup-content">
-<span class="close" onclick="closePopup()">X</span>
-<h3 id="nama"></h3>
-<p id="jabatan"></p>
-</div>
-</div>
+<p id="info"></p>
 
 <script>
-function show(id){
-let data = {
-komandan:{nama:"Erwan Andrian", jabatan:"Komandan"},
-kabid1:{nama:"Arief Tri Bawanto", jabatan:"Kabidlat K/L"},
-kabid2:{nama:"Handy Priantono", jabatan:"Kabidlatum"},
-kabid3:{nama:"I Gusti Ngurah Adi Brata", jabatan:"Kabidmatra"},
-sub1:{nama:"Subbid", jabatan:"Belanegara"},
-sub2:{nama:"Subbid", jabatan:"PIM"},
-sub3:{nama:"Subbid", jabatan:"PRAM"},
-sub4:{nama:"Subbid", jabatan:"Binpotdirga"},
-sub5:{nama:"Subbid", jabatan:"AYU"},
-sub6:{nama:"Subbid", jabatan:"PPRC"},
-sub7:{nama:"Subbid", jabatan:"Gulben"},
-sub8:{nama:"Subbid", jabatan:"Damkar"},
-sub9:{nama:"Subbid", jabatan:"Latker"},
-};
-
-document.getElementById("nama").innerText = data[id].nama;
-document.getElementById("jabatan").innerText = data[id].jabatan;
-document.getElementById("popup").style.display = "block";
-}
-
-function closePopup(){
-document.getElementById("popup").style.display = "none";
+function showInfo(jabatan) {
+  let text = "";
+  if (jabatan === "ketua") {
+    text = "Ketua: Bertanggung jawab penuh atas organisasi.";
+  } else if (jabatan === "wakil") {
+    text = "Wakil: Membantu ketua dalam tugas.";
+  } else if (jabatan === "sekretaris") {
+    text = "Sekretaris: Mengurus administrasi.";
+  }
+  document.getElementById("info").innerText = text;
 }
 </script>
 
