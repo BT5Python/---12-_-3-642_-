@@ -68,6 +68,11 @@ button:hover {
   width: 100%;
   margin-top: 10px;
 }
+  }
+    @keyframes blinkText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 </style>
 </head>
 <body>
@@ -131,11 +136,7 @@ button:hover {
     if (confirm("Yakin ingin logout?")) {
       window.location.href = 'login.html';
     }
-  }
-    @keyframes blinkText {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
+  
   </script>
   <script>
 // Fullscreen untuk Android WebView / PWA
