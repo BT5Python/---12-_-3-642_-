@@ -23,12 +23,17 @@ h2 {
   margin: 0;
   line-height: 1.1;
   font-size: 40px;
-  animation: blinkText 0.5s infinite; /* ini yang bikin kedip */
+  animation: blinkText 0.5s infinite;
+}
+.content {
+  margin-top: 50px;
 }  
 .top-buttons {
   text-align: right;
-  margin-top: 8px;
-  margin-bottom: 15px;
+  margin-top: 30px;
+  margin-left: 150px;
+  margin-right: 0px;
+  margin-bottom: 15px; 
 }
 button {
   background: transparent;
@@ -37,7 +42,7 @@ button {
   color: #00ff00;
   cursor: pointer;
   border-radius: 4px;
-  font-weight: normal;
+  font-weight: bold;
   margin-left: 5px;
 }
 button:hover {
@@ -63,15 +68,16 @@ button:hover {
   margin: 4px 0;
   font-size: 13px;
 }
-  .underline-dashed {
+.underline-dashed {
   border-bottom: 2px dashed #00ff00;
   width: 100%;
   margin-top: 10px;
-}  
-    @keyframes blinkText {
+}
+@keyframes blinkText {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
 </style>
 </head>
 <body>
@@ -80,13 +86,13 @@ button:hover {
   <h2>PUSAT DATA DAN ARSIP</h2>
   <div class="underline-dashed"></div>
 
+  
   <div class="top-buttons">
     <button onclick="window.location.href='database.html'">back to DATABASE</button>
     <button onclick="logout()">LOGOUT</button>
   </div>
 
   <div id="content">Memuat struktur folder...</div>
-
   <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtsTp4pcGsNouDupIXwt0Ntpj-B8PdpwDoYASsTVwtZazlrtvhjV1fgJbLGRYm1ah4/exec'; // Ganti URL kamu
   
@@ -135,7 +141,7 @@ button:hover {
     if (confirm("Yakin ingin logout?")) {
       window.location.href = 'login.html';
     }
-  
+  }
   </script>
   <script>
 // Fullscreen untuk Android WebView / PWA
@@ -173,4 +179,3 @@ document.addEventListener("click", function() {
 
 </body>
 </html>
-
