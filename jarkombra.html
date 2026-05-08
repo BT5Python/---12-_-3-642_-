@@ -109,7 +109,7 @@ button:hover {
   <h1>MONITORING SYSTEM</h1>
   <h2>JARKOMBRA</h2>  
   <div class="underline-solid"></div>
-  <div class="header-buttons">
+  <div class="header-buttons" id="menuButtons" style="display:none;">
         <button onclick="window.location.href='database.html'">back to DATABASE</button>
         <button onclick="window.location.href='index.html'">LOGOUT</button>
   </div>
@@ -126,8 +126,11 @@ button:hover {
     });
 
   function displayStructure(data) {
-    document.getElementById('content').innerHTML = renderFolder(data);
-  }
+  document.getElementById('content').innerHTML = renderFolder(data);
+
+  // tampilkan tombol setelah folder selesai dimuat
+  document.getElementById("menuButtons").style.display = "flex";
+}
 
   function renderFolder(folder) {
     let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
