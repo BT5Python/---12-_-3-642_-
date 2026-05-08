@@ -92,36 +92,27 @@ button:hover {
     width: 35%; padding: 20px; display: flex; flex-direction: column;
     border-right: 2px solid #00FF00;
 }
-.running-text {
+.typing-container {
   width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  box-sizing: border-box;
-  border-top: 1px solid #00ff00;
-  border-bottom: 1px solid #00ff00;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 6px 0;
-  background: rgba(0,255,0,0.05);
-}
-
-.running-text span {
-  display: inline-block;
-  padding-left: 100%;
-  animation: marquee 18s linear infinite;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
   color: #ffff00;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
+  letter-spacing: 1px;
   text-shadow: 0 0 5px #00ff00;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+#typing-text::after {
+  content: "_";
+  animation: blinkCursor 0.8s infinite;
+  color: #00ff00;
+}
+
+@keyframes blinkCursor {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 </style>
 </head>
@@ -134,10 +125,9 @@ button:hover {
   <h1>INTEGRATED</h1>
   <h1>MONITORING SYSTEM</h1>
   <h2>JARKOMBRA</h2>
-  <div class="running-text">
-  <span>
-    ◆ CONNECTED TO CENTRAL DATABASE ◆ SECURE NETWORK ACTIVE ◆ AUTHORIZED PERSONNEL ONLY ◆ SYSTEM STATUS : ONLINE ◆
-  </span>
+  <div class="typing-container">
+  <span id="typing-text"></span>
+</div>
 </div>
   <div class="header-buttons" id="menuButtons" style="display:none;">
         <button onclick="window.location.href='database.html'">back to DATABASE</button>
@@ -252,6 +242,30 @@ function tampilkanTanggal() {
 setInterval(tampilkanTanggal, 1000);
 tampilkanTanggal();
 </script>
+<script>
+const text =
+"◆ SECURE NETWORK CONNECTED ◆ AUTHORIZED PERSONNEL ONLY ◆ SYSTEM STATUS : ONLINE ◆";
 
+let index = 0;
+
+function typeEffect() {
+  const target = document.getElementById("typing-text");
+
+  if (index < text.length) {
+    target.textContent += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 45);
+  } else {
+    // ulang lagi setelah selesai
+    setTimeout(() => {
+      target.textContent = "";
+      index = 0;
+      typeEffect();
+    }, 2500);
+  }
+}
+
+typeEffect();
+</script>
 </body>
 </html>
