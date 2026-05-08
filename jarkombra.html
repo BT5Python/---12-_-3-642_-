@@ -85,16 +85,16 @@ button:hover {
 <body>
   <h1>INTEGRATED</h1>
   <h1>MONITORING SYSTEM</h1>
-  <h2>JARKOMBRA</h2>
+  <h2>JARKOMBRA</h2>  
+  <div class="underline-solid"></div>
+  <div class="header-buttons">
+        <button onclick="goTo('database.html')">back to DATABASE</button>
+        <button onclick="goTo('index.html')">LOGOUT</button>
+  </div>
   <div class="recording-indicator">● RECORDING  
   <p style="font-size:12px;color:#ffff00">
   DATE/TIME : <span class="code-private" id="tanggal"></span></p>
   </div>
-  <div class="underline-solid"></div>
-  <div class="top-buttons">
-    <button onclick="window.location.href='database.html'">back to DATABASE</button>
-    <button onclick="logout()">LOGOUT</button>
-  </div>  
   <div id="content">Memuat struktur folder...</div>
   <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzxKBt7_AJx4XGHK-q85imk0_9dLSuSuAU80a8qE8wM3Bli3QLKXSchJtveyPGz6_eH/exec'; // Ganti URL kamu
