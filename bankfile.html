@@ -145,8 +145,11 @@ button:hover {
     });
 
   function displayStructure(data) {
-    document.getElementById('content').innerHTML = renderFolder(data);
-  }
+  document.getElementById('content').innerHTML = renderFolder(data);
+
+  // tampilkan tombol setelah folder selesai dimuat
+  document.getElementById("menuButtons").style.display = "flex";
+}
 
   function renderFolder(folder) {
     let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
