@@ -68,16 +68,55 @@ button:hover {
   margin: 4px 0;
   font-size: 13px;
 }
-.underline-dashed {
-  border-bottom: 2px dashed #00ff00;
-  width: 100%;
-  margin-top: 10px;
-}
 @keyframes blinkText {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+@keyframes blinkRecording{0%,50%,100%{opacity:1}25%,75%{opacity:0}}
+.recording-indicator { position:fixed; top:40px; left:15px; font-family:'Courier New', monospace; font-size:15px; font-weight:bold; color:#FF0000; animation:blinkRecording 1s infinite; z-index:9999; user-select:none; }
+.date-time { position:fixed; top:10px; left:100px; }
+.header-buttons { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:8px; }
+.header-buttons button {
+    background:transparent; border:1px solid #00FF00; color:#00FF00; padding:8px 12px; cursor:pointer; border-radius:4px;
+    font-family:'Courier New',monospace; transition:background .25s, color .25s;
+}
+.highlight-section {
+    color: #FFFF00; /* kuning terang untuk label data utama */
+    font-weight: bold;
+}
+.header-buttons button:hover { background-color: #00FF00; color: black; }
 
+.main-container { display: flex; flex: 1; border-top: 1px solid #00FF00; }
+.search-panel {
+    width: 35%; padding: 20px; display: flex; flex-direction: column;
+    border-right: 2px solid #00FF00;
+}
+.underline-solid {
+  border-bottom: 0.5px solid #777b7e;
+  width: 100%;
+  margin-top: 10px;
+}
+.typing-container {
+  width: 100%;
+  text-align: letf;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #777b7e;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 1px;  
+}
+
+#typing-text::after {
+  content: "_";
+  animation: blinkCursor 0.5s infinite;
+  color: #777b7e;
+}
+
+@keyframes blinkCursor {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 </style>
 </head>
 <body>
