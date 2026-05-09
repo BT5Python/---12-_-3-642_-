@@ -47,17 +47,11 @@ video#bg-video {
   max-width: 450px;
 }
 
-/* Gambar logo */
-.content img {
-  width: 250px;           /* Sesuaikan ukuran */
-  margin-bottom: 15px;    /* Jarak ke judul */
-}
-
-/* Judul */
 h1 {
   font-size: 2em;
   margin-bottom: 25px;
   text-shadow: 0 0 8px #00ff00;
+  line-height: 0.5;
 }
 
 /* Form login */
@@ -107,7 +101,7 @@ button:hover {
 
 <!-- Video Background -->
 <video id="bg-video" autoplay muted loop playsinline>
-  <source src="Desain tanpa judul.mp4" type="video/mp4">
+  <source src="Desain tanpa judul (2).mp4" type="video/mp4">
   Browser Anda tidak mendukung video.
 </video>
 
@@ -116,15 +110,12 @@ button:hover {
 
 <!-- Lagu background -->
 <audio id="bg-music" autoplay loop>
-  <source src="music.aac" type="audio/aac">
+  <source src="music.aac" type="audio/mpeg">
   Browser Anda tidak mendukung audio.
 </audio>
 
 <!-- Konten tengah -->
-<div class="content">
-  <!-- Logo di atas judul -->
-  <img src="logo Puslat.png" alt="Logo Puslat Kodiklatau">
-
+<div class="content">  
   <h1>PUSLAT KODIKLATAU</h1>
   <form onsubmit="return loginSuccess(event)">
     <input type="text" name="admin" placeholder="Username" required autocomplete="off">
@@ -136,14 +127,18 @@ button:hover {
 <script>
 function loginSuccess(event) {
   event.preventDefault(); // Mencegah form reload
+
+  // Ambil nilai form  
   const user = event.target.admin.value.trim();
   const pass = event.target.kodiklatau.value.trim();
 
+  // USERNAME & PASSWORD (silakan ganti sesuai kebutuhan)
   const correctUser = "admin";
   const correctPass = "kodiklatau";
 
   if (user === correctUser && pass === correctPass) {
-      window.location.href = "database.html";  
+      // Redirect ke halaman setelah login berhasil
+      window.location.href = "progar.html";  
       return false;
   } else {
       alert("Username atau Password salah!");
@@ -151,11 +146,11 @@ function loginSuccess(event) {
   }
 }
 </script>
-
 <script>
 // Fullscreen untuk Android WebView / PWA
 function forceFullscreen() {
   const elem = document.documentElement;
+
   if (elem.requestFullscreen) {
     elem.requestFullscreen().catch(()=>{});
   } else if (elem.webkitRequestFullscreen) {
@@ -163,14 +158,23 @@ function forceFullscreen() {
   }
 }
 
+// Deteksi jika dijalankan sebagai PWA atau WebView
 function isStandalone() {
   return (window.matchMedia('(display-mode: standalone)').matches || 
           window.navigator.standalone === true);
 }
 
-if (isStandalone()) setTimeout(forceFullscreen, 500);
-if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) setTimeout(forceFullscreen, 800);
+// Jika PWA → langsung fullscreen
+if (isStandalone()) {
+  setTimeout(forceFullscreen, 500);
+}
 
+// Jika Android WebView → auto fullscreen
+if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
+  setTimeout(forceFullscreen, 800);
+}
+
+// Browser biasa tetap butuh klik pertama
 document.addEventListener("click", function() {
   forceFullscreen();
 }, { once: true });
@@ -178,3 +182,26 @@ document.addEventListener("click", function() {
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
