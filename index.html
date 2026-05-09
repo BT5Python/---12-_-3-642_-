@@ -51,8 +51,9 @@ video#bg-video {
 .content img {
   width: 120px;           /* Sesuaikan ukuran */
   margin-bottom: 15px;    /* Jarak ke judul */
-}  
+}
 
+/* Judul */
 h1 {
   font-size: 2em;
   margin-bottom: 25px;
@@ -121,6 +122,9 @@ button:hover {
 
 <!-- Konten tengah -->
 <div class="content">
+  <!-- Logo di atas judul -->
+  <img src="logo.png" alt="Logo Puslat Kodiklatau">
+
   <h1>PUSLAT KODIKLATAU</h1>
   <form onsubmit="return loginSuccess(event)">
     <input type="text" name="admin" placeholder="Username" required autocomplete="off">
@@ -132,17 +136,13 @@ button:hover {
 <script>
 function loginSuccess(event) {
   event.preventDefault(); // Mencegah form reload
-
-  // Ambil nilai form  
   const user = event.target.admin.value.trim();
   const pass = event.target.kodiklatau.value.trim();
 
-  // USERNAME & PASSWORD (silakan ganti sesuai kebutuhan)
   const correctUser = "admin";
   const correctPass = "kodiklatau";
 
   if (user === correctUser && pass === correctPass) {
-      // Redirect ke halaman setelah login berhasil
       window.location.href = "database.html";  
       return false;
   } else {
@@ -151,11 +151,11 @@ function loginSuccess(event) {
   }
 }
 </script>
+
 <script>
 // Fullscreen untuk Android WebView / PWA
 function forceFullscreen() {
   const elem = document.documentElement;
-
   if (elem.requestFullscreen) {
     elem.requestFullscreen().catch(()=>{});
   } else if (elem.webkitRequestFullscreen) {
@@ -163,23 +163,14 @@ function forceFullscreen() {
   }
 }
 
-// Deteksi jika dijalankan sebagai PWA atau WebView
 function isStandalone() {
   return (window.matchMedia('(display-mode: standalone)').matches || 
           window.navigator.standalone === true);
 }
 
-// Jika PWA → langsung fullscreen
-if (isStandalone()) {
-  setTimeout(forceFullscreen, 500);
-}
+if (isStandalone()) setTimeout(forceFullscreen, 500);
+if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) setTimeout(forceFullscreen, 800);
 
-// Jika Android WebView → auto fullscreen
-if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
-  setTimeout(forceFullscreen, 800);
-}
-
-// Browser biasa tetap butuh klik pertama
 document.addEventListener("click", function() {
   forceFullscreen();
 }, { once: true });
@@ -187,25 +178,3 @@ document.addEventListener("click", function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
