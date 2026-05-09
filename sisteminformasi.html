@@ -68,32 +68,73 @@ button:hover {
   margin: 4px 0;
   font-size: 13px;
 }
-.underline-dashed {
-  border-bottom: 2px dashed #00ff00;
+@keyframes blinkRecording{0%,50%,100%{opacity:1}25%,75%{opacity:0}}
+.recording-indicator { position:fixed; top:40px; left:15px; font-family:'Courier New', monospace; font-size:15px; font-weight:bold; color:#FF0000; animation:blinkRecording 1s infinite; z-index:9999; user-select:none; }
+.date-time { position:fixed; top:10px; left:100px; }
+.header-buttons { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:8px; }
+.header-buttons button {
+    background:transparent; border:1px solid #00FF00; color:#00FF00; padding:8px 12px; cursor:pointer; border-radius:4px;
+    font-family:'Courier New',monospace; transition:background .25s, color .25s;
+}
+.highlight-section {
+    color: #FFFF00; /* kuning terang untuk label data utama */
+    font-weight: bold;
+}
+.header-buttons button:hover { background-color: #00FF00; color: black; }
+
+.main-container { display: flex; flex: 1; border-top: 1px solid #00FF00; }
+.search-panel {
+    width: 35%; padding: 20px; display: flex; flex-direction: column;
+    border-right: 2px solid #00FF00;
+}
+.underline-solid {
+  border-bottom: 0.5px solid #777b7e;
   width: 100%;
   margin-top: 10px;
 }
-@keyframes blinkText {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+.typing-container {
+  width: 100%;
+  text-align: letf;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #777b7e;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 1px;  
 }
 
+#typing-text::after {
+  content: "_";
+  animation: blinkCursor 0.5s infinite;
+  color: #777b7e;
+}
+
+@keyframes blinkCursor {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
+}
 </style>
 </head>
 <body>
+  <div class="recording-indicator">● RECORDING  
+  <p style="font-size:12px;color:#ffff00">
+  DATE/TIME : <span class="code-private" id="tanggal"></span></p>
+  </div>
+  <header>
   <h1>INTEGRATED</h1>
   <h1>MONITORING SYSTEM</h1>
   <h2>SIM -PUSLAT KODIKLATAU</h2>
-  <div class="underline-dashed"></div>
-
-  
-  <div class="top-buttons">
-    <button onclick="window.location.href='database.html'">back to DATABASE</button>
-    <button onclick="logout()">LOGOUT</button>
+  <div class="typing-container">
+  <span id="typing-text"></span>
+</div>
+  <div class="underline-solid"></div>
+</div>
+  <div class="header-buttons" id="menuButtons" style="display:none;">
+        <button onclick="window.location.href='database.html'">back to DATABASE</button>
+        <button onclick="window.location.href='index.html'">LOGOUT</button>
   </div>
-
+  </header>
   <div id="content">Memuat struktur folder...</div>
-
   <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyeaHlZoHLdLJtZRzYyCgnTSsRfb-pcK-9DphPOVCBWYslGNPjykgm6lR2Pwke685jS6g/exec'; // Ganti URL kamu
   
@@ -105,8 +146,11 @@ button:hover {
     });
 
   function displayStructure(data) {
-    document.getElementById('content').innerHTML = renderFolder(data);
-  }
+  document.getElementById('content').innerHTML = renderFolder(data);
+
+  // tampilkan tombol setelah folder selesai dimuat
+  document.getElementById("menuButtons").style.display = "flex";
+}
 
   function renderFolder(folder) {
     let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
@@ -177,7 +221,52 @@ document.addEventListener("click", function() {
   forceFullscreen();
 }, { once: true });
 </script>
+<script>
+function tampilkanTanggal() {
+  const now = new Date();
 
+  const hari = String(now.getDate()).padStart(2, '0');
+  const bulan = String(now.getMonth() + 1).padStart(2, '0');
+  const tahun = now.getFullYear();
+
+  const jam = String(now.getHours()).padStart(2, '0');
+  const menit = String(now.getMinutes()).padStart(2, '0');
+  const detik = String(now.getSeconds()).padStart(2, '0');
+
+  const format = `${hari}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
+
+  document.getElementById("tanggal").textContent = format;
+}
+
+// update tiap detik biar live
+setInterval(tampilkanTanggal, 1000);
+tampilkanTanggal();
+</script>
+<script>
+const text =
+"IMS terintegrasi melalui Integrated System Upload JARKOMBRA Puslat Kodiklatau";
+
+let index = 0;
+
+function typeEffect() {
+  const target = document.getElementById("typing-text");
+
+  if (index < text.length) {
+    target.textContent += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 45);
+  } else {
+    // ulang lagi setelah selesai
+    setTimeout(() => {
+      target.textContent = "";
+      index = 0;
+      typeEffect();
+    }, 2500);
+  }
+}
+
+typeEffect();
+</script>
 </body>
 </html>
 
