@@ -51,7 +51,6 @@ h1 {
   font-size: 2em;
   margin-bottom: 25px;
   text-shadow: 0 0 8px #00ff00;
-  line-height: 0.5;
 }
 
 /* Form login */
@@ -110,12 +109,12 @@ button:hover {
 
 <!-- Lagu background -->
 <audio id="bg-music" autoplay loop>
-  <source src="music.aac" type="audio/mpeg">
+  <source src="🌏 Hymne TNI Angkatan Udara (Cipt. Kapten Tek Wahyu Herdiyansyah, S.T.Han., M.A.P).aac" type="audio/mpeg">
   Browser Anda tidak mendukung audio.
 </audio>
 
 <!-- Konten tengah -->
-<div class="content">  
+<div class="content">
   <h1>PUSLAT KODIKLATAU</h1>
   <form onsubmit="return loginSuccess(event)">
     <input type="text" name="admin" placeholder="Username" required autocomplete="off">
@@ -138,7 +137,7 @@ function loginSuccess(event) {
 
   if (user === correctUser && pass === correctPass) {
       // Redirect ke halaman setelah login berhasil
-      window.location.href = "progar.html";  
+      window.location.href = "database.html";  
       return false;
   } else {
       alert("Username atau Password salah!");
@@ -182,7 +181,6 @@ document.addEventListener("click", function() {
 
 </body>
 </html>
-
 
 
 
