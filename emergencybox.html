@@ -62,49 +62,79 @@ button:hover {
 .file-item {
   margin: 4px 0;
   font-size: 13px;
-}
-  .underline-dashed {
-  border-bottom: 2px dashed #00ff00;
-  width: 100%;
-  margin-top: 10px;
-}
+}  
   @keyframes blinkText {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
-.blink-red {
-  color: red !important;
-  font-weight: bold;
-  animation: kedip 0.7s infinite, glow 1.2s infinite;
+@keyframes blinkRecording{0%,50%,100%{opacity:1}25%,75%{opacity:0}}
+.recording-indicator { position:fixed; top:40px; left:15px; font-family:'Courier New', monospace; font-size:15px; font-weight:bold; color:#FF0000; animation:blinkRecording 1s infinite; z-index:9999; user-select:none; }
+.date-time { position:fixed; top:10px; left:100px; }
+.header-buttons { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:8px; }
+.header-buttons button {
+    background:transparent; border:1px solid #00FF00; color:#00FF00; padding:8px 12px; cursor:pointer; border-radius:4px;
+    font-family:'Courier New',monospace; transition:background .25s, color .25s;
+}
+.highlight-section {
+    color: #FFFF00; /* kuning terang untuk label data utama */
+    font-weight: bold;
+}
+.header-buttons button:hover { background-color: #00FF00; color: black; }
+
+.main-container { display: flex; flex: 1; border-top: 1px solid #00FF00; }
+.search-panel {
+    width: 35%; padding: 20px; display: flex; flex-direction: column;
+    border-right: 2px solid #00FF00;
+}
+.underline-solid {
+  border-bottom: 0.5px solid #777b7e;
+  width: 100%;
+  margin-top: 10px;
+}
+.typing-container {
+  width: 100%;
+  text-align: letf;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #777b7e;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 1px;  
 }
 
-@keyframes kedip {
-  0% { opacity: 1; }
-  50% { opacity: 0.25; }
-  100% { opacity: 1; }
+#typing-text::after {
+  content: "_";
+  animation: blinkCursor 0.5s infinite;
+  color: #777b7e;
 }
 
-@keyframes glow {
-  0% { text-shadow: 0 0 6px red; }
-  50% { text-shadow: 0 0 20px red; }
-  100% { text-shadow: 0 0 6px red; }
+@keyframes blinkCursor {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0; }
 }
-
 </style>
 </head>
 <body>
+  <div class="recording-indicator">● RECORDING  
+  <p style="font-size:12px;color:#ffff00">
+  DATE/TIME : <span class="code-private" id="tanggal"></span></p>
+  </div>
+  <header>
   <h1>INTEGRATED</h1>
   <h1>MONITORING SYSTEM</h1>
   <h2>EMERGENCY BOX</h2>
-  <div class="underline-dashed"></div>
-
-  <div class="top-buttons">
-    <button onclick="window.location.href='database.html'">back to DATABASE</button>
-    <button onclick="logout()">LOGOUT</button>
+  <div class="typing-container">
+  <span id="typing-text"></span>
+</div>
+  <div class="underline-solid"></div>
+</div>
+  <div class="header-buttons" id="menuButtons" style="display:none;">
+        <button onclick="window.location.href='database.html'">back to DATABASE</button>
+        <button onclick="window.location.href='index.html'">LOGOUT</button>
   </div>
+  </header>
 
   <div id="content">Memuat struktur folder...</div>
-
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWYCzqG76MshtXWvrp-bjpKC3juRgpPnrwAQEnumBmAZmLOi_KYaxfIaPe2hcqQiYlzg/exec";
@@ -121,139 +151,126 @@ fetch(SCRIPT_URL)
   });
 
 function displayStructure(data) {
-  document.getElementById("content").innerHTML = renderFolder(data);
+  document.getElementById('content').innerHTML = renderFolder(data);
+
+  // tampilkan tombol setelah folder selesai dimuat
+  document.getElementById("menuButtons").style.display = "flex";
 }
 
-function renderFolder(folder) {
-  let isEmergency = folder.name.toUpperCase().includes("EMERGENCY BOX");
-
-  let html = `
-    <div class="folder">
-      <div class="folder-name ${isEmergency ? "blink-red" : ""}"
-        onclick="toggleFolder(this); if(this.classList.contains('blink-red')) stopEmergencySound();">
-        📁 ${folder.name}
-      </div>
-  `;
-
-  html += `<div class="children" style="display:none;">`;
-
-  folder.children.forEach(item => {
-    if (item.type === "folder") {
-      html += renderFolder(item);
-    } else {
-      html += `
-        <div class="file-item">
-          📄 ${item.name}
-          <button onclick="window.open('${item.url}', '_blank')">Lihat</button>
-          <button onclick="downloadFile('${item.url}')">Unduh</button>
-          <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
-        </div>
-      `;
-    }
-  });
-
-  html += `</div></div>`;
-  return html;
-}
-
-function toggleFolder(el) {
-  const content = el.nextElementSibling;
-  content.style.display = content.style.display === "none" ? "block" : "none";
-}
-
-function downloadFile(url) {
-  window.open(url + "?export=download", "_blank");
-}
-
-function logout() {
-  if (confirm("Yakin ingin logout?")) {
-    window.location.href = "login.html";
-  }
-}
-</script>
-
-<script>
-function folderHasData(folder) {
-  if (!folder.children || folder.children.length === 0) return false;
-
-  for (let item of folder.children) {
-    if (item.type === "file") return true;
-    if (item.type === "folder" && folderHasData(item)) return true;
-  }
-  return false;
-}
-
-function checkEmergency(folder) {
-  if (folder.name.toUpperCase().includes("EMERGENCY BOX")) {
-    return folderHasData(folder);
-  }
-
-  if (folder.children) {
-    for (let item of folder.children) {
-      if (checkEmergency(item)) return true;
-    }
-  }
-  return false;
-}
-</script>
-
-<audio id="alertAudio" src="biohazard-alarm-143105.mp3" preload="auto"></audio>
-
-<script>
-function playEmergencySound() {
-  const audio = document.getElementById("alertAudio");
-  audio.loop = true;
-  audio.play().catch(() => {});
-}
-
-function stopEmergencySound() {
-  const audio = document.getElementById("alertAudio");
-  audio.pause();
-  audio.currentTime = 0;
-}
-</script>
-
-<script>
-function getSavedFiles() {
-  let data = localStorage.getItem("emergencyFiles");
-  return data ? JSON.parse(data) : [];
-}
-
-function saveFiles(list) {
-  localStorage.setItem("emergencyFiles", JSON.stringify(list));
-}
-
-function collectEmergencyFiles(folder, arr = []) {
-  if (!folder.children) return arr;
-
-  if (folder.name.toUpperCase().includes("EMERGENCY BOX")) {
+  function renderFolder(folder) {
+    let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
+    html += `<div class="children" style="display:none;">`;
     folder.children.forEach(item => {
-      if (item.type === "file") arr.push(item.name);
-      if (item.type === "folder") collectEmergencyFiles(item, arr);
+      if (item.type === 'folder') {
+        html += renderFolder(item);
+      } else {
+        html += `
+          <div class="file-item">
+            📄 ${item.name}
+            <button onclick="window.open('${item.url}', '_blank')">Lihat</button>
+            <button onclick="downloadFile('${item.url}')">Unduh</button>
+            <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
+          </div>
+        `;
+      }
     });
+    html += `</div></div>`;
+    return html;
+  }
+
+  function toggleFolder(el) {
+    const content = el.nextElementSibling;
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function downloadFile(url) {
+    window.open(url + '?export=download', '_blank');
+  }
+
+  function logout() {
+    if (confirm("Yakin ingin logout?")) {
+      window.location.href = 'login.html';
+    }
+  }
+  </script>
+  <script>
+// Fullscreen untuk Android WebView / PWA
+function forceFullscreen() {
+  const elem = document.documentElement;
+
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen().catch(()=>{});
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  }
+}
+
+// Deteksi jika dijalankan sebagai PWA atau WebView
+function isStandalone() {
+  return (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true);
+}
+
+// Jika PWA → langsung fullscreen
+if (isStandalone()) {
+  setTimeout(forceFullscreen, 500);
+}
+
+// Jika Android WebView → auto fullscreen
+if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
+  setTimeout(forceFullscreen, 800);
+}
+
+// Browser biasa tetap butuh klik pertama
+document.addEventListener("click", function() {
+  forceFullscreen();
+}, { once: true });
+</script>
+<script>
+function tampilkanTanggal() {
+  const now = new Date();
+
+  const hari = String(now.getDate()).padStart(2, '0');
+  const bulan = String(now.getMonth() + 1).padStart(2, '0');
+  const tahun = now.getFullYear();
+
+  const jam = String(now.getHours()).padStart(2, '0');
+  const menit = String(now.getMinutes()).padStart(2, '0');
+  const detik = String(now.getSeconds()).padStart(2, '0');
+
+  const format = `${hari}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
+
+  document.getElementById("tanggal").textContent = format;
+}
+
+// update tiap detik biar live
+setInterval(tampilkanTanggal, 1000);
+tampilkanTanggal();
+</script>
+<script>
+const text =
+"IMS terintegrasi melalui Integrated System Upload JARKOMBRA Puslat Kodiklatau";
+
+let index = 0;
+
+function typeEffect() {
+  const target = document.getElementById("typing-text");
+
+  if (index < text.length) {
+    target.textContent += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 45);
   } else {
-    folder.children.forEach(item => {
-      if (item.type === "folder") collectEmergencyFiles(item, arr);
-    });
+    // ulang lagi setelah selesai
+    setTimeout(() => {
+      target.textContent = "";
+      index = 0;
+      typeEffect();
+    }, 2500);
   }
-
-  return arr;
 }
-
-function checkNewEmergencyFiles(data) {
-  const currentFiles = collectEmergencyFiles(data);
-  const oldFiles = getSavedFiles();
-
-  const newFiles = currentFiles.filter(f => !oldFiles.includes(f));
-
-  if (newFiles.length > 0) {
-    playEmergencySound();
-  }
-
-  saveFiles(currentFiles);
-}
+typeEffect();
 </script>
-
 </body>
 </html>
 
