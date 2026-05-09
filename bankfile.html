@@ -123,14 +123,16 @@ button:hover {
   <h1>INTEGRATED</h1>
   <h1>MONITORING SYSTEM</h1>
   <h2>PUSAT DATA DAN ARSIP</h2>
-  <div class="underline-dashed"></div>
-
-  
-  <div class="top-buttons">
-    <button onclick="window.location.href='database.html'">back to DATABASE</button>
-    <button onclick="logout()">LOGOUT</button>
+  <div class="typing-container">
+  <span id="typing-text"></span>
+</div>
+  <div class="underline-solid"></div>
+</div>  
+  <div class="header-buttons" id="menuButtons" style="display:none;">
+        <button onclick="window.location.href='database.html'">back to DATABASE</button>
+        <button onclick="window.location.href='index.html'">LOGOUT</button>
   </div>
-
+</header>
   <div id="content">Memuat struktur folder...</div>
   <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi8txIXf3MvZMnUYPV30GJlqFfz43Du71gXLzLLbwznZLX7BVSLAcV8AamlUa9GQ5q/exec'; // Ganti URL kamu
