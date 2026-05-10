@@ -94,23 +94,13 @@ button:hover {
   background-color: #00cc00;
   box-shadow: 0 0 12px #00ff00;
 }
-.logo-top-right {
-  position: fixed;
-  top: 20px;
-  right: 580px;
-  z-index: 10000;
-}
-
-.logo-top-right img {
-  width: 120px;
-  height: auto;
+.logo{
+  width:120px;
+  margin-bottom:20px;
 }
 </style>
 </head>
 <body>
-<div class="logo-top-right">
-  <img src="logopuslat.png" alt="Logo">
-</div>
 
 <!-- Video Background -->
 <video id="bg-video" autoplay muted loop playsinline>
@@ -128,7 +118,8 @@ button:hover {
 </audio>
 
 <!-- Konten tengah -->
-<div class="content">    
+<div class="content">
+  <img src="logopuslat.png" class="logo">
   <h1>DANPUSLAT KODIKLATAU</h1>
   <form onsubmit="return loginSuccess(event)">
     <input type="text" name="admin" placeholder="Username" required autocomplete="off">
