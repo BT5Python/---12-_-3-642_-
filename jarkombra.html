@@ -180,7 +180,7 @@ button:hover {
         html += `
           <div class="file-item">
             📄 ${item.name}
-            <button onclick="window.open('${item.url}', '_blank')">Lihat</button>
+            <button onclick="openFile('${item.url}', '${item.name}')">Lihat</button>
             <button onclick="downloadFile('${item.url}')">Unduh</button>
             <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
           </div>
@@ -199,6 +199,45 @@ button:hover {
   function downloadFile(url) {
     window.open(url + '?export=download', '_blank');
   }
+  function openFile(url, filename) {
+
+  const ext = filename.split('.').pop().toLowerCase();
+
+  // file yang bisa dipreview browser
+  const previewable = [
+    'pdf',
+    'jpg', 'jpeg', 'png', 'gif', 'webp',
+    'mp4', 'webm', 'mp3',
+    'txt', 'html', 'css', 'js',
+    'json'
+  ];
+
+  // office files pakai google viewer
+  const office = [
+    'doc', 'docx',
+    'xls', 'xlsx',
+    'ppt', 'pptx'
+  ];
+
+  // VIDEO / IMAGE / PDF / TEXT
+  if (previewable.includes(ext)) {
+    window.open(url, '_blank');
+    return;
+  }
+
+  // OFFICE FILE
+  if (office.includes(ext)) {
+    const viewer =
+      'https://docs.google.com/gview?embedded=1&url=' +
+      encodeURIComponent(url);
+
+    window.open(viewer, '_blank');
+    return;
+  }
+
+  // selain itu download otomatis
+  downloadFile(url);
+}
 
   function logout() {
     if (confirm("Yakin ingin logout?")) {
