@@ -469,7 +469,7 @@ function showMemberButtons(keyword){
         const kw = keyword.toLowerCase();
         const matchKeyword = 
           (p.satker && p.satker.toLowerCase().includes(kw)) ||
-          (p.nrp_nip && p.nrp_nip.toLowerCase().includes(kw)) ||
+          (p.nrp_nip && String(p.nrp_nip).toLowerCase().includes(kw)) ||
           (p.nama_lengkap && p.nama_lengkap.toLowerCase().includes(kw)) ||
           (p.kategori && p.kategori.toLowerCase().includes(kw));
         const matchCategory = !selectedCategory || p.kategori === selectedCategory;
@@ -481,7 +481,7 @@ function showMemberButtons(keyword){
     } else {
         filtered.forEach(agent => {
             const btn = document.createElement("button");
-            btn.textContent = agent.nama_lengkap; agent.nrp_nip;
+            btn.textContent = agent.nama_lengkap;
             btn.onclick = () => displayAgent(agent);
             memberBtnContainer.appendChild(btn);
         });
