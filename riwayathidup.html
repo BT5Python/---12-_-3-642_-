@@ -481,7 +481,7 @@ function showMemberButtons(keyword){
     } else {
         filtered.forEach(agent => {
             const btn = document.createElement("button");
-            btn.textContent = agent.nama_lengkap;
+            btn.textContent = agent.nama_lengkap; agent.nrp_nip;
             btn.onclick = () => displayAgent(agent);
             memberBtnContainer.appendChild(btn);
         });
