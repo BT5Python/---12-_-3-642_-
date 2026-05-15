@@ -177,13 +177,21 @@ lines.forEach((line, idx) => {
 
 /* ================== FETCH DATA JABATAN KOSONG ================== */
 async function fetchData() {
+  try {
+    const url =
+      "https://script.google.com/macros/s/AKfycbwSonmRyTo1M37E3Hls3zFlFppYNXP8MptZ9lfvNJ6Vqw-tnwQUy57S4Be-0fcx5HIB/exec";
 
-  const url =
-    "https://script.google.com/macros/s/AKfycbwSonmRyTo1M37E3Hls3zFlFppYNXP8MptZ9lfvNJ6Vqw-tnwQUy57S4Be-0fcx5HIB/exec";
-
-  const res = await fetch(url);
-
-  return res.json();
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("HTTP ERROR");
+    }
+    const text = await res.text();
+    console.log(text);
+    return JSON.parse(text);
+  } catch(err) {
+    console.error(err);
+    return [];
+  }
 }
 
 /* ================== DOWNLOAD PDF ================== */
@@ -296,39 +304,75 @@ async function startTyping() {
 async function tampilkanData() {
 
   const terminal = document.getElementById("terminal");
-  const data = await fetchData();
 
-  data.forEach(row => {
+  try {
 
-    // Siapkan line plain
-    let line =
-`${row.no.toString().padEnd(5)}${row.jabatan.padEnd(32)}${row.golongan.padEnd(10)}${row.pangkat.padEnd(26)}${row.korps.padEnd(20)}${row.keterangan}\n`;
+    const data = await fetchData();
 
-    // Jika pns, bungkus dgn class .yellow
-    if (String(row.pangkat).toUpperCase().includes("PNS")) {
-      line = `<span class="yellow">${line}</span>`;
+    if (!Array.isArray(data)) {
+
+      terminal.innerHTML += `
+
+[ DATABASE ERROR ]
+INVALID JSON RESPONSE
+
+`;
+
+      return;
     }
 
-    // Jika keterangan mengandung kata "PRIORITAS" (case-insensitive),
-    // bungkus baris dengan .blink-prioritas sehingga berkedip
-    const keterangan = row.keterangan ? String(row.keterangan).toUpperCase() : "";
-    if (keterangan.includes("PRIORITAS")) {
-      // Jika sudah diberi class PNS, letakkan blink-prioritas di luar
-      terminal.innerHTML += `<span class="blink-prioritas">${line}</span>`;
-    } else {
-      terminal.innerHTML += line;
-    }
-  });
+    data.forEach(row => {
 
-  terminal.innerHTML += `
+      let line =
+`${String(row.no || "").padEnd(5)}${String(row.jabatan || "").padEnd(32)}${String(row.golongan || "").padEnd(10)}${String(row.pangkat || "").padEnd(26)}${String(row.korps || "").padEnd(20)}${String(row.keterangan || "")}\n`;
+
+      if (
+        String(row.pangkat || "")
+        .toUpperCase()
+        .includes("PNS")
+      ) {
+        line = `<span class="yellow">${line}</span>`;
+      }
+
+      const keterangan =
+        String(row.keterangan || "")
+        .toUpperCase();
+
+      if (keterangan.includes("PRIORITAS")) {
+
+        terminal.innerHTML +=
+          `<span class="blink-prioritas">${line}</span>`;
+
+      } else {
+
+        terminal.innerHTML += line;
+      }
+    });
+
+    terminal.innerHTML += `
 --------------------------------------------------------------------------------------------------------------
 * Data jabatan kosong diperbarui otomatis dari Spreadsheet.
 * Informasi hanya untuk lingkungan PUSLAT KODIKLATAU.
 --------------------------------------------------------------------------------------------------------------
 `;
 
+  } catch(err) {
+
+    terminal.innerHTML += `
+
+[ SYSTEM ERROR ]
+
+${err}
+
+`;
+
+    console.error(err);
+  }
+
   terminal.classList.remove("typing");
-  document.getElementById("buttons").classList.remove("hidden");
+
+  document.getElementById("buttons")
+    .classList.remove("hidden");
 }
 
 </script>
