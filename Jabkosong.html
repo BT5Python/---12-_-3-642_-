@@ -179,23 +179,17 @@ lines.forEach((line, idx) => {
 async function downloadFile() {
 
   const url =
-    "https://script.google.com/macros/s/AKfycbyA-UtTS66hGscQCWiUslYrbpMl6mTFyp3yIJz5Lj6DECFfb0JPW_Fd520244PjbkzT/exec";
+    "https://script.google.com/macros/s/AKfycbw5RznEn6LFwubEUSGD8FZGFqVmuonK-zXJjfc5CDsrCarSRuPPNfkTkB8-2a5Kkogf/exec";
 
-  try {
-
-    const res = await fetch(url);
-    const base64 = await res.text();
-
-    const link = document.createElement("a");
-
-    link.href = "data:application/pdf;base64," + base64;
-    link.download = "jabatan_kosong.pdf";
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-  } catch(err) {
+  const res = await fetch(url);
+  const base64 = await res.text();
+  const link = document.createElement("a");
+  link.href = "data:application/pdf;base64," + base64;
+  link.download = "jabatan_kosong.pdf";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+} catch(err) {
 
     alert("DOWNLOAD FAILED");
     console.error(err);
