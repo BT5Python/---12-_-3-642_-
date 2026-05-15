@@ -302,17 +302,10 @@ function downloadFile() {
 
   const gid = "0";
 
-  // Export jadi PDF
   const url =
     `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=pdf&gid=${gid}`;
 
-  // otomatis download
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "jabatan_kosong.pdf";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  window.location.href = url;
 }
 </script>
 <script>
