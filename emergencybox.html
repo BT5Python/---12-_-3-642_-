@@ -153,58 +153,70 @@ button:hover {
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAdIbQR6FDY062jUpnwbQYwrtDB9HYTOwHjTkC18Jv9C0h0jICqXS-tlzi4OHPtX1vrg/exec";
 
 fetch(SCRIPT_URL)
-    .then(r => r.json())
-    .then(data => displayStructure(data))
-    .catch(err => {
-      document.getElementById('content').innerHTML = `<b style="color:red">Gagal memuat data</b><br>${err}`;
-    });
+  .then(r => r.json())
+  .then(data => displayStructure(data))
+  .catch(err => {
+    document.getElementById('content').innerHTML =
+      `<b style="color:red">Gagal memuat data</b><br>${err}`;
+  });
 
 function displayStructure(data) {
   document.getElementById('content').innerHTML = renderFolder(data);
-
-  // tampilkan tombol setelah folder selesai dimuat
   document.getElementById("menuButtons").style.display = "flex";
 }
 
-  function renderFolder(folder) {
-    let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
-    html += `<div class="children" style="display:none;">`;
-    folder.children.forEach(item => {
-      if (item.type === 'folder') {
-        html += renderFolder(item);
-      } else {
-        html += `
-          <div class="file-item">
-            📄 ${item.name}
-            <button onclick="previewFile('${item.url}')">
+function renderFolder(folder) {
+  let html = `
+    <div class="folder">
+      <div class="folder-name" onclick="toggleFolder(this)">
+        📁 ${folder.name}
+      </div>
+      <div class="children" style="display:none;">
+  `;
+
+  folder.children.forEach(item => {
+
+    if (item.type === 'folder') {
+
+      html += renderFolder(item);
+
+    } else {
+
+      html += `
+        <div class="file-item">
+          📄 ${item.name}
+
+          <button onclick="previewFile('${item.url}')">
             Lihat
-            </button>
-            <button onclick="downloadFile('${item.download}')">
+          </button>
+
+          <button onclick="downloadFile('${item.download}')">
             Unduh
-            </button>
-            <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
+          </button>
+
+          <div style="font-size:11px; color:#66ff66;">
+            ${item.date} | ${item.size}
           </div>
-        `;
-      }
-    });
-    html += `</div></div>`;
-    return html;
-  }
-
-  function toggleFolder(el) {
-    const content = el.nextElementSibling;
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function downloadFile(url) {
-    window.open(url + '?export=download', '_blank');
-  }
-
-  function logout() {
-    if (confirm("Yakin ingin logout?")) {
-      window.location.href = 'login.html';
+        </div>
+      `;
     }
-  function previewFile(url) {
+  });
+
+  html += `</div></div>`;
+
+  return html;
+}
+
+function toggleFolder(el) {
+  const content = el.nextElementSibling;
+
+  content.style.display =
+    content.style.display === 'none'
+      ? 'block'
+      : 'none';
+}
+
+function previewFile(url) {
   window.open(url, "_blank");
 }
 
@@ -214,8 +226,13 @@ function downloadFile(url) {
   a.target = "_blank";
   a.click();
 }
+
+function logout() {
+  if (confirm("Yakin ingin logout?")) {
+    window.location.href = 'login.html';
   }
-  </script>
+}
+</script>
   <script>
 // Fullscreen untuk Android WebView / PWA
 function forceFullscreen() {
