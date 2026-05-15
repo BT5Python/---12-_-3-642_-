@@ -166,15 +166,17 @@ function displayStructure(data) {
 }
 
 function renderFolder(folder) {
+
   let html = `
     <div class="folder">
       <div class="folder-name" onclick="toggleFolder(this)">
         📁 ${folder.name}
       </div>
+
       <div class="children" style="display:none;">
   `;
 
-  folder.children.forEach(item => {
+  (folder.children || []).forEach(item => {
 
     if (item.type === 'folder') {
 
@@ -184,6 +186,7 @@ function renderFolder(folder) {
 
       html += `
         <div class="file-item">
+
           📄 ${item.name}
 
           <button onclick="previewFile('${item.url}')">
@@ -194,15 +197,20 @@ function renderFolder(folder) {
             Unduh
           </button>
 
-          <div style="font-size:11px; color:#66ff66;">
+          <div style="font-size:11px;color:#66ff66;">
             ${item.date} | ${item.size}
           </div>
+
         </div>
       `;
     }
+
   });
 
-  html += `</div></div>`;
+  html += `
+      </div>
+    </div>
+  `;
 
   return html;
 }
