@@ -471,6 +471,7 @@ function showMemberButtons(keyword){
           (p.satker && p.satker.toLowerCase().includes(kw)) ||
           (p.nrp_nip && String(p.nrp_nip).toLowerCase().includes(kw)) ||
           (p.nama_lengkap && p.nama_lengkap.toLowerCase().includes(kw)) ||
+          (p.jabatan && p.jabatan.toLowerCase().includes(kw)) ||
           (p.kategori && p.kategori.toLowerCase().includes(kw));
         const matchCategory = !selectedCategory || p.kategori === selectedCategory;
         return matchKeyword && matchCategory;
