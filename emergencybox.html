@@ -150,47 +150,98 @@ button:hover {
   <div id="content">Memuat struktur folder...</div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw17qTBNxn-AOcrFnX0mv2Cv6bKHDuxg9HhgxX1pwxyvhhvL0CQl6icmeTluFbVui-e/exec";
+const SCRIPT_URL = "URL_APPS_SCRIPT";
 
 fetch(SCRIPT_URL)
-    .then(r => r.json())
-    .then(data => displayStructure(data))
-    .catch(err => {
-      document.getElementById('content').innerHTML = `<b style="color:red">Gagal memuat data</b><br>${err}`;
-    });
+  .then(r => r.json())
+  .then(data => displayStructure(data))
+  .catch(err => {
+    document.getElementById('content').innerHTML =
+      `<b style="color:red">Gagal memuat data</b><br>${err}`;
+  });
 
 function displayStructure(data) {
   document.getElementById('content').innerHTML = renderFolder(data);
-
-  // tampilkan tombol setelah folder selesai dimuat
   document.getElementById("menuButtons").style.display = "flex";
 }
 
-  function renderFolder(folder) {
-    let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
-    html += `<div class="children" style="display:none;">`;
-    folder.children.forEach(item => {
-      if (item.type === 'folder') {
-        html += renderFolder(item);
-      } else {
-        html += `
-          <div class="file-item">
-            📄 ${item.name}
-            <button onclick="previewFile('${item.url}')">
+function renderFolder(folder) {
+
+  let html = `
+    <div class="folder">
+      <div class="folder-name"
+           onclick="toggleFolder(this)">
+           📁 ${folder.name}
+      </div>
+
+      <div class="children"
+           style="display:none;">
+  `;
+
+  folder.children.forEach(item => {
+
+    if(item.type === 'folder') {
+
+      html += renderFolder(item);
+
+    } else {
+
+      html += `
+        <div class="file-item">
+
+          📄 ${item.name}
+
+          <button onclick="previewFile('${item.url}')">
             Lihat
-            </button>
-            <button onclick="downloadFile('${item.download}')">
+          </button>
+
+          <button onclick="downloadFile('${item.download}')">
             Unduh
-            </button>
-            <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
+          </button>
+
+          <div style="font-size:11px;color:#66ff66;">
+            ${item.date} | ${item.size}
           </div>
-        `;
-      }
-    });
-    html += `</div></div>`;
-    return html;
-  } 
-  </script>
+
+        </div>
+      `;
+    }
+  });
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+function toggleFolder(el) {
+
+  const content = el.nextElementSibling;
+
+  content.style.display =
+    content.style.display === "none"
+    ? "block"
+    : "none";
+}
+
+function previewFile(url) {
+
+  window.open(url, "_blank");
+}
+
+function downloadFile(url) {
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.target = "_blank";
+
+  a.click();
+}
+</script>
   <script>
 // Fullscreen untuk Android WebView / PWA
 function forceFullscreen() {
