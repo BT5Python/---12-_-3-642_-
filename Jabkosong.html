@@ -194,7 +194,7 @@ async function fetchData() {
   }
 }
 
-/* ================== PREVIEW PDF ================== */
+/* ================== DOWNLOAD PDF ================== */
 async function downloadFile() {
 
   try {
@@ -203,30 +203,28 @@ async function downloadFile() {
       "https://script.google.com/macros/s/AKfycbyWOEHcGgdQzfju_kbsvFbO6chxbZY-8eW29rNnD6xipU1IZSx3kOeYZzfZPyWcWRVq/exec";
 
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("HTTP ERROR");
-    }
-    const base64 = await response.text();
-    // ubah base64 -> binary
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    // buat blob pdf
-    const blob = new Blob([bytes], {
-      type: "application/pdf"
-    });
-    // buat url preview
-    const pdfUrl = URL.createObjectURL(blob);
-    // buka preview pdf
-    window.open(pdfUrl, "_blank");
-  } catch(err) {
-    alert("PREVIEW FAILED");
-    console.error(err);
-  }
+if (!response.ok) {
+  throw new Error("HTTP ERROR");
 }
+const base64 = await response.text();
+const binary = atob(base64);
+const bytes = new Uint8Array(binary.length);
+for (let i = 0; i < binary.length; i++) {
+  bytes[i] = binary.charCodeAt(i);
+}
+const blob = new Blob([bytes], {
+  type: "application/pdf"
+});
+const blobUrl = URL.createObjectURL(blob);
+const link = document.createElement("a");
+link.href = blobUrl;
+link.download = "jabatan_kosong.pdf";
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+URL.revokeObjectURL(blobUrl);
   } catch(err) {
+
     alert("DOWNLOAD FAILED");
     console.error(err);
   }
