@@ -138,9 +138,9 @@ button:hover {
   <h2>EMERGENCY BOX</h2>
   <div class="typing-container">
   <span id="typing-text"></span>
-</div>
-  <div class="underline-solid"></div>
-</div>
+  </div>
+  <div class="underline-solid">
+  </div>
   <div class="header-buttons" id="menuButtons" style="display:none;">
         <button onclick="window.location.href='database.html'">back to DATABASE</button>
         <button onclick="window.location.href='index.html'">LOGOUT</button>
@@ -224,7 +224,10 @@ function downloadFile(url) {
   const a = document.createElement("a");
   a.href = url;
   a.target = "_blank";
+  a.download = "";
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
 }
 
 function logout() {
