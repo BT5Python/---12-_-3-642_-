@@ -150,178 +150,57 @@ button:hover {
   <div id="content">Memuat struktur folder...</div>
 
 <script>
-const SCRIPT_URL = "URL_APPS_SCRIPT";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhG_VuHBV9BAwPxKFZOGgP4z1EA4QnXKspWrgrQ3Q1OwvUUHrctoTTO-awVVKRXHSa/exec";
 
 fetch(SCRIPT_URL)
-  .then(r => r.json())
-  .then(data => displayStructure(data))
-  .catch(err => {
-    document.getElementById('content').innerHTML =
-      `<b style="color:red">Gagal memuat data</b><br>${err}`;
-  });
+    .then(r => r.json())
+    .then(data => displayStructure(data))
+    .catch(err => {
+      document.getElementById('content').innerHTML = `<b style="color:red">Gagal memuat data</b><br>${err}`;
+    });
 
 function displayStructure(data) {
   document.getElementById('content').innerHTML = renderFolder(data);
+
+  // tampilkan tombol setelah folder selesai dimuat
   document.getElementById("menuButtons").style.display = "flex";
 }
 
-function renderFolder(folder) {
-
-  let html = `
-    <div class="folder">
-      <div class="folder-name"
-           onclick="toggleFolder(this)">
-           📁 ${folder.name}
-      </div>
-
-      <div class="children"
-           style="display:none;">
-  `;
-
-  folder.children.forEach(item => {
-
-    if(item.type === 'folder') {
-
-      html += renderFolder(item);
-
-    } else {
-
-      html += `
-        <div class="file-item">
-
-          📄 ${item.name}
-
-          <button onclick="previewFile('${item.url}')">
-            Lihat
-          </button>
-
-          <button onclick="downloadFile('${item.download}')">
-            Unduh
-          </button>
-
-          <div style="font-size:11px;color:#66ff66;">
-            ${item.date} | ${item.size}
+  function renderFolder(folder) {
+    let html = `<div class="folder"><div class="folder-name" onclick="toggleFolder(this)">📁 ${folder.name}</div>`;
+    html += `<div class="children" style="display:none;">`;
+    folder.children.forEach(item => {
+      if (item.type === 'folder') {
+        html += renderFolder(item);
+      } else {
+        html += `
+          <div class="file-item">
+            📄 ${item.name}
+            <button onclick="window.open('${item.url}', '_blank')">Lihat</button>
+            <button onclick="downloadFile('${item.url}')">Unduh</button>
+            <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
           </div>
+        `;
+      }
+    });
+    html += `</div></div>`;
+    return html;
+  }
 
-        </div>
-      `;
+  function toggleFolder(el) {
+    const content = el.nextElementSibling;
+    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function downloadFile(url) {
+    window.open(url + '?export=download', '_blank');
+  }
+
+  function logout() {
+    if (confirm("Yakin ingin logout?")) {
+      window.location.href = 'login.html';
     }
-  });
-
-  html += `
-      </div>
-    </div>
-  `;
-
-  return html;
-}
-
-function toggleFolder(el) {
-
-  const content = el.nextElementSibling;
-
-  content.style.display =
-    content.style.display === "none"
-    ? "block"
-    : "none";
-}
-
-function previewFile(url) {
-
-  window.open(url, "_blank");
-}
-
-function downloadFile(url) {
-
-  const a = document.createElement("a");
-
-  a.href = url;
-
-  a.target = "_blank";
-
-  a.click();
-}
-</script>
-  <script>
-// Fullscreen untuk Android WebView / PWA
-function forceFullscreen() {
-  const elem = document.documentElement;
-
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen().catch(()=>{});
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
   }
-}
-
-// Deteksi jika dijalankan sebagai PWA atau WebView
-function isStandalone() {
-  return (window.matchMedia('(display-mode: standalone)').matches || 
-          window.navigator.standalone === true);
-}
-
-// Jika PWA → langsung fullscreen
-if (isStandalone()) {
-  setTimeout(forceFullscreen, 500);
-}
-
-// Jika Android WebView → auto fullscreen
-if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
-  setTimeout(forceFullscreen, 800);
-}
-
-// Browser biasa tetap butuh klik pertama
-document.addEventListener("click", function() {
-  forceFullscreen();
-}, { once: true });
-</script>
-<script>
-function tampilkanTanggal() {
-  const now = new Date();
-
-  const hari = String(now.getDate()).padStart(2, '0');
-  const bulan = String(now.getMonth() + 1).padStart(2, '0');
-  const tahun = now.getFullYear();
-
-  const jam = String(now.getHours()).padStart(2, '0');
-  const menit = String(now.getMinutes()).padStart(2, '0');
-  const detik = String(now.getSeconds()).padStart(2, '0');
-
-  const format = `${hari}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
-
-  document.getElementById("tanggal").textContent = format;
-}
-
-// update tiap detik biar live
-setInterval(tampilkanTanggal, 1000);
-tampilkanTanggal();
-</script>
-<script>
-const text =
-"IMS terintegrasi melalui Integrated System Upload EMERGENCY BOX Puslat Kodiklatau";
-
-let index = 0;
-
-function typeEffect() {
-  const target = document.getElementById("typing-text");
-
-  if (index < text.length) {
-    target.textContent += text.charAt(index);
-    index++;
-    setTimeout(typeEffect, 45);
-  } else {
-    // ulang lagi setelah selesai
-    setTimeout(() => {
-      target.textContent = "";
-      index = 0;
-      typeEffect();
-    }, 2500);
-  }
-}
-typeEffect();
-</script>
-</body>
-</html>
   </script>
   <script>
 // Fullscreen untuk Android WebView / PWA
@@ -403,165 +282,3 @@ typeEffect();
 </script>
 </body>
 </html>
-<script>
-// Fullscreen untuk Android WebView / PWA
-function forceFullscreen() {
-  const elem = document.documentElement;
-
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen().catch(()=>{});
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
-  }
-}
-
-// Deteksi jika dijalankan sebagai PWA atau WebView
-function isStandalone() {
-  return (window.matchMedia('(display-mode: standalone)').matches || 
-          window.navigator.standalone === true);
-}
-
-// Jika PWA → langsung fullscreen
-if (isStandalone()) {
-  setTimeout(forceFullscreen, 500);
-}
-
-// Jika Android WebView → auto fullscreen
-if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
-  setTimeout(forceFullscreen, 800);
-}
-
-// Browser biasa tetap butuh klik pertama
-document.addEventListener("click", function() {
-  forceFullscreen();
-}, { once: true });
-</script>
-<script>
-function tampilkanTanggal() {
-  const now = new Date();
-
-  const hari = String(now.getDate()).padStart(2, '0');
-  const bulan = String(now.getMonth() + 1).padStart(2, '0');
-  const tahun = now.getFullYear();
-
-  const jam = String(now.getHours()).padStart(2, '0');
-  const menit = String(now.getMinutes()).padStart(2, '0');
-  const detik = String(now.getSeconds()).padStart(2, '0');
-
-  const format = `${hari}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
-
-  document.getElementById("tanggal").textContent = format;
-}
-
-// update tiap detik biar live
-setInterval(tampilkanTanggal, 1000);
-tampilkanTanggal();
-</script>
-<script>
-const text =
-"IMS terintegrasi melalui Integrated System Upload EMERGENCY BOX Puslat Kodiklatau";
-
-let index = 0;
-
-function typeEffect() {
-  const target = document.getElementById("typing-text");
-
-  if (index < text.length) {
-    target.textContent += text.charAt(index);
-    index++;
-    setTimeout(typeEffect, 45);
-  } else {
-    // ulang lagi setelah selesai
-    setTimeout(() => {
-      target.textContent = "";
-      index = 0;
-      typeEffect();
-    }, 2500);
-  }
-}
-typeEffect();
-</script>
-</body>
-</html>
-  </script>
-  <script>
-// Fullscreen untuk Android WebView / PWA
-function forceFullscreen() {
-  const elem = document.documentElement;
-
-  if (elem.requestFullscreen) {
-    elem.requestFullscreen().catch(()=>{});
-  } else if (elem.webkitRequestFullscreen) {
-    elem.webkitRequestFullscreen();
-  }
-}
-
-// Deteksi jika dijalankan sebagai PWA atau WebView
-function isStandalone() {
-  return (window.matchMedia('(display-mode: standalone)').matches || 
-          window.navigator.standalone === true);
-}
-
-// Jika PWA → langsung fullscreen
-if (isStandalone()) {
-  setTimeout(forceFullscreen, 500);
-}
-
-// Jika Android WebView → auto fullscreen
-if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
-  setTimeout(forceFullscreen, 800);
-}
-
-// Browser biasa tetap butuh klik pertama
-document.addEventListener("click", function() {
-  forceFullscreen();
-}, { once: true });
-</script>
-<script>
-function tampilkanTanggal() {
-  const now = new Date();
-
-  const hari = String(now.getDate()).padStart(2, '0');
-  const bulan = String(now.getMonth() + 1).padStart(2, '0');
-  const tahun = now.getFullYear();
-
-  const jam = String(now.getHours()).padStart(2, '0');
-  const menit = String(now.getMinutes()).padStart(2, '0');
-  const detik = String(now.getSeconds()).padStart(2, '0');
-
-  const format = `${hari}-${bulan}-${tahun} ${jam}:${menit}:${detik}`;
-
-  document.getElementById("tanggal").textContent = format;
-}
-
-// update tiap detik biar live
-setInterval(tampilkanTanggal, 1000);
-tampilkanTanggal();
-</script>
-<script>
-const text =
-"IMS terintegrasi melalui Integrated System Upload EMERGENCY BOX Puslat Kodiklatau";
-
-let index = 0;
-
-function typeEffect() {
-  const target = document.getElementById("typing-text");
-
-  if (index < text.length) {
-    target.textContent += text.charAt(index);
-    index++;
-    setTimeout(typeEffect, 45);
-  } else {
-    // ulang lagi setelah selesai
-    setTimeout(() => {
-      target.textContent = "";
-      index = 0;
-      typeEffect();
-    }, 2500);
-  }
-}
-typeEffect();
-</script>
-</body>
-</html>
-
