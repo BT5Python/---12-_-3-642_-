@@ -150,7 +150,7 @@ button:hover {
   <div id="content">Memuat struktur folder...</div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhG_VuHBV9BAwPxKFZOGgP4z1EA4QnXKspWrgrQ3Q1OwvUUHrctoTTO-awVVKRXHSa/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw17qTBNxn-AOcrFnX0mv2Cv6bKHDuxg9HhgxX1pwxyvhhvL0CQl6icmeTluFbVui-e/exec";
 
 fetch(SCRIPT_URL)
     .then(r => r.json())
@@ -176,8 +176,12 @@ function displayStructure(data) {
         html += `
           <div class="file-item">
             📄 ${item.name}
-            <button onclick="window.open('${item.url}', '_blank')">Lihat</button>
-            <button onclick="downloadFile('${item.url}')">Unduh</button>
+            <button onclick="previewFile('${item.url}')">
+            Lihat
+            </button>
+            <button onclick="downloadFile('${item.download}')">
+            Unduh
+            </button>
             <div style="font-size:11px; color:#66ff66;">${item.date} | ${item.size}</div>
           </div>
         `;
@@ -200,6 +204,16 @@ function displayStructure(data) {
     if (confirm("Yakin ingin logout?")) {
       window.location.href = 'login.html';
     }
+  function previewFile(url) {
+  window.open(url, "_blank");
+}
+
+function downloadFile(url) {
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.click();
+}
   }
   </script>
   <script>
