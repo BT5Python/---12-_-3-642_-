@@ -176,12 +176,31 @@ lines.forEach((line, idx) => {
 });
 
 /* ================== FETCH DATA JABATAN KOSONG ================== */
-async function fetchData() {
-  const url =
-    "https://script.google.com/macros/s/AKfycbx2zKspURm924azk_B4Rboul1eBnbMUERQZ75_4SpHcnwPEbs0xaH4SMl67SCfVcdrp/exec";
+async function downloadFile() {
 
-  const res = await fetch(url);
-  return res.json();
+  const url =
+    "https://script.google.com/macros/s/AKfycbyA-UtTS66hGscQCWiUslYrbpMl6mTFyp3yIJz5Lj6DECFfb0JPW_Fd520244PjbkzT/exec";
+
+  try {
+
+    const res = await fetch(url);
+    const base64 = await res.text();
+
+    const link = document.createElement("a");
+
+    link.href = "data:application/pdf;base64," + base64;
+    link.download = "jabatan_kosong.pdf";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  } catch(err) {
+
+    alert("DOWNLOAD FAILED");
+    console.error(err);
+
+  }
 }
 
 /* ================== EFEK KETIK ================== */
