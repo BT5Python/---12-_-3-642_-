@@ -293,10 +293,12 @@ async function tampilkanData() {
 
 /* ================== DOWNLOAD ================== */
 function downloadFile() {
-  window.open(
-    "https://drive.google.com/uc?export=download&id=1GAPWqs98GSMypnKYeow_oWzSYtAgzK6h",
-    "_blank"
-  );
+  const sheetID = "1DaI0-BcZa3aIF_Bykw3Lf3ysYdUdoLLG3W62E6EgzJs";
+
+  const url =
+    `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=pdf`;
+
+  window.open(url, "_blank");
 }
 </script>
 <script>
