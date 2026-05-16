@@ -359,6 +359,27 @@ function getDateTime() {
 
   return `${tanggal} ${jam}`;
 }
+function ketikInfo() {
+
+  const text = "Daftar personel puslat kodiklatau terintegrasi";
+  const el = document.getElementById("typingInfo");
+
+  if (!el) return;
+
+  let i = 0;
+
+  const interval = setInterval(() => {
+
+    el.innerHTML += text.charAt(i);
+
+    i++;
+
+    if (i >= text.length) {
+      clearInterval(interval);
+    }
+
+  }, 40);
+}
 async function startTyping() {
 
   const terminal = document.getElementById("terminal");
@@ -380,7 +401,7 @@ CLASSIFICATION: `;
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
 DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
-Daftar personel puslat kodiklatau terintegrasi 
+<span id="typingInfo" style="color:#777777;"></span> 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -441,6 +462,7 @@ NO              NAMA                     PANGKAT                              JA
       }
 
       terminal.innerHTML += tableHeader;
+      setTimeout(ketikInfo, 100);
     }
   }
 
