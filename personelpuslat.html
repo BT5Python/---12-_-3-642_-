@@ -277,28 +277,6 @@ function hitungMasa(tmt) {
       start = new Date(tmt);
     }
   
-  function formatTanggal(tgl) {
-
-  if (!tgl) return "-";
-
-  tgl = String(tgl).trim();
-
-  // kalau sudah dd/mm/yyyy
-  if (tgl.includes("/") && tgl.length <= 10) {
-    return tgl;
-  }
-
-  const d = new Date(tgl);
-
-  if (isNaN(d.getTime())) return tgl;
-
-  const hari = String(d.getDate()).padStart(2, "0");
-  const bulan = String(d.getMonth() + 1).padStart(2, "0");
-  const tahun = d.getFullYear();
-
-  return `${hari}/${bulan}/${tahun}`;
-}
-
   // validasi tanggal
   if (isNaN(start.getTime())) return "-";
 
@@ -319,6 +297,27 @@ function hitungMasa(tmt) {
   }
 
   return `${y} th ${m} bln ${d} hr`;
+}
+function formatTanggal(tgl) {
+
+  if (!tgl) return "-";
+
+  tgl = String(tgl).trim();
+
+  // kalau sudah dd/mm/yyyy
+  if (tgl.includes("/") && tgl.length <= 10) {
+    return tgl;
+  }
+
+  const d = new Date(tgl);
+
+  if (isNaN(d.getTime())) return tgl;
+
+  const hari = String(d.getDate()).padStart(2, "0");
+  const bulan = String(d.getMonth() + 1).padStart(2, "0");
+  const tahun = d.getFullYear();
+
+  return `${hari}/${bulan}/${tahun}`;
 }
 
 
@@ -406,10 +405,10 @@ async function startTyping() {
   setTimeout(async () => {
     const data = await fetchData();
 
-    data.forEach(row => {
-      const masa = hitungMasa(row.tmt);
+    ddata.forEach(row => {
 
-      let masaFix = masa;
+      const tmtFix = formatTanggal(row.tmt);
+      const masa = hitungMasa(tmtFix);
       const angka = masa.match(/\d+/g);
       const tahun = angka ? parseInt(angka[0]) : 0;
       const bulan = angka ? parseInt(angka[1]) : 0;
@@ -428,8 +427,7 @@ async function startTyping() {
         masaFix = `<span class="blink-merah">${masa}</span>`;
       }
 
-      let line =
-`${row.no.toString().padEnd(5)}${row.nama.padEnd(35)}${row.pangkat.padEnd(20)}${row.jabatan.padEnd(42)}${tmtFix.padEnd(20)}${row.keterangan.padEnd(15)}${masaFix}\n`;
+      let line = `${no}${nama}${pangkat}${jabatan}${tmtFix.padEnd(20)}${ket}${masaFix}\n`;
 
       if (String(row.pangkat).toUpperCase().includes("PNS")) {
         line = `<span class="yellow">${line}</span>`;
