@@ -208,14 +208,6 @@ pre {
 <pre id="terminal" class="typing"></pre>
 </div>
 
-<!-- Tombol -->
-<div class="button-container hidden" id="buttons">
-  <button onclick="window.location.href='personelmasuk.html'">personel MASUK</button>
-  <button onclick="window.location.href='personelkeluar.html'">personel KELUAR</button>
-  <button onclick="window.location.href='database.html'">back to DATABASE</button>
-  <button class="download-btn" onclick="downloadFile()">DOWNLOAD</button>
-</div>
-
 <script>
 /* ================== LOADING ================== */
 const lines = document.querySelectorAll("#loading p");
@@ -411,6 +403,12 @@ DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
 * Center staff incoming personnel list - live connected to Spreadsheet
 * For internal PUSLAT KODIKLATAU environment only
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+<div class="button-container" id="buttons">
+  <button onclick="window.location.href='personelmasuk.html'">PERSONEL MASUK</button>
+  <button onclick="window.location.href='personelkeluar.html'">PERSONEL KELUAR</button>
+  <button onclick="window.location.href='database.html'">BACK TO DATABASE</button>
+  <button class="download-btn" onclick="downloadFile()">DOWNLOAD</button>
+</div>
 `;
 
   let i = 0;
@@ -577,11 +575,7 @@ NO              NAMA                     PANGKAT                              JA
         footer
     );
 
-    terminal.classList.remove("typing");
-
-    document
-      .getElementById("buttons")
-      .classList.remove("hidden");
+    terminal.classList.remove("typing");    
 
   }, 2500);
 }
