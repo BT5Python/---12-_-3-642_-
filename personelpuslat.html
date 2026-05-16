@@ -369,108 +369,139 @@ async function startTyping() {
 ---------------------------------------------------------------------------------------------------------------
 `;
 
-  let i = 0, step = 0;
+  let i = 0;
+  let step = 0;
   let spanRahasia;
 
   function type() {
 
     if (step === 0) {
+
       if (i < textBefore.length) {
+
         terminal.textContent += textBefore.charAt(i++);
         return setTimeout(type, 1);
       }
+
       step = 1;
       i = 0;
+
       spanRahasia = document.createElement("span");
       spanRahasia.classList.add("blink-merah");
+
       terminal.appendChild(spanRahasia);
+
       return type();
     }
 
     if (step === 1) {
+
       if (i < rahasia.length) {
+
         spanRahasia.textContent += rahasia.charAt(i++);
         return setTimeout(type, 30);
       }
+
       step = 2;
       i = 0;
+
       return type();
     }
 
     if (step === 2) {
+
       if (i < textAfterTop.length) {
+
         terminal.innerHTML += textAfterTop.charAt(i++);
         return setTimeout(type, 1);
       }
-      step = 3;
+
       terminal.innerHTML += tableHeader;
-      return type();
     }
   }
 
   type();
 
-  /* tampilkan data */
-  function hitungMasa(tmt) {
+  // tampilkan data
+  setTimeout(async () => {
 
-  if (!tmt) return "-";
+    const data = await fetchData();
 
-  let start;
+    data.forEach(row => {
 
-  // format dd/mm/yyyy
-  if (typeof tmt === "string" && tmt.includes("/")) {
+      // skip header spreadsheet
+      if (
+        !row.tmt ||
+        row.tmt === "TMT MASUK" ||
+        row.no === "NO" ||
+        String(row.no).includes("PUSLAT") ||
+        String(row.no).includes("DAFTAR") ||
+        String(row.no).includes("STATUS")
+      ) {
+        return;
+      }
 
-    const p = tmt.split("/");
+      const tmtFix = formatTanggal(row.tmt);
 
-    const hari = parseInt(p[0], 10);
-    const bulan = parseInt(p[1], 10) - 1;
-    const tahun = parseInt(p[2], 10);
+      const masa = hitungMasa(tmtFix);
 
-    start = new Date(tahun, bulan, hari);
-  }
+      let masaFix = masa;
 
-  else {
+      const angka = masa.match(/\d+/g);
 
-    start = new Date(tmt);
-  }
+      const tahun = angka ? parseInt(angka[0]) : 0;
+      const bulan = angka ? parseInt(angka[1]) : 0;
 
-  if (isNaN(start.getTime())) return "-";
+      let wrapStart = "";
+      let wrapEnd = "";
 
-  const today = new Date();
+      if (tahun === 0 && bulan < 2) {
 
-  // reset jam
-  today.setHours(0,0,0,0);
-  start.setHours(0,0,0,0);
+        wrapStart = `<span class="baris-kedip-hijau">`;
+        wrapEnd = `</span>`;
 
-  // kalau masa depan
-  if (start > today) {
-    return "BELUM MASUK";
-  }
+        masaFix = `<span class="blink-hijau">${masa}</span>`;
+      }
 
-  let tahun = today.getFullYear() - start.getFullYear();
-  let bulan = today.getMonth() - start.getMonth();
-  let hari = today.getDate() - start.getDate();
+      else if (tahun >= 2) {
 
-  if (hari < 0) {
+        wrapStart = `<span class="baris-kedip-merah">`;
+        wrapEnd = `</span>`;
 
-    bulan--;
+        masaFix = `<span class="blink-merah">${masa}</span>`;
+      }
 
-    const lastMonth = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      0
-    ).getDate();
+      let line =
+        `${String(row.no).padEnd(5)}` +
+        `${String(row.nama).padEnd(35)}` +
+        `${String(row.pangkat).padEnd(20)}` +
+        `${String(row.jabatan).padEnd(42)}` +
+        `${tmtFix.padEnd(20)}` +
+        `${String(row.keterangan || "").padEnd(15)}` +
+        `${masaFix}\n`;
 
-    hari += lastMonth;
-  }
+      if (
+        String(row.pangkat)
+        .toUpperCase()
+        .includes("PNS")
+      ) {
 
-  if (bulan < 0) {
+        line = `<span class="yellow">${line}</span>`;
+      }
 
-    tahun--;
-    bulan += 12;
-  }
+      terminal.innerHTML += wrapStart + line + wrapEnd;
 
-  return `${tahun} th ${bulan} bln ${hari} hr`;
+    });
+
+    terminal.innerHTML += footer;
+
+    terminal.classList.remove("typing");
+
+    document
+      .getElementById("buttons")
+      .classList.remove("hidden");
+
+  }, 2500);
 }
 
 /* ================== DOWNLOAD ================== */
