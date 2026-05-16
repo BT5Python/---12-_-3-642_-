@@ -454,7 +454,9 @@ async function startTyping() {
     const data = await fetchData();
 
     data.forEach(row => {
-
+      console.log("TMT ASLI:", row.tmt);
+      console.log("TMT FIX :", tmtFix);
+      console.log("MASA    :", masa);
       const tmtFix = formatTanggal(row.tmt);
       const masa = hitungMasa(tmtFix);
       const angka = masa.match(/\d+/g);
@@ -567,7 +569,7 @@ function downloadFile() {
       }
     } else {
       // data adalah array of objects {no,nama,pangkat,...}
-      data.forEach(row => {
+      data.forEach(row => {        
         const tmtFix = formatTanggal(row.tmt);
         const masa = hitungMasa(tmtFix);
         let masaFix = masa;
