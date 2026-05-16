@@ -205,7 +205,15 @@ pre {
   <div id="runningText">
     <span>⚠ THIS DATA IS CONFIDENTIAL - FOR THE KODIKLATAU CENTER ENVIRONMENT ONLY ⚠ </span>
   </div>
-  <pre id="terminal" class="typing"></pre>
+  <div id="typingInfo"
+     style="
+     color:#777;
+     margin-bottom:6px;
+     font-family:'Courier New', monospace;
+     white-space:pre;
+"></div>
+
+<pre id="terminal" class="typing"></pre>
 </div>
 
 <!-- Tombol -->
@@ -364,8 +372,6 @@ function ketikInfo() {
   const text = "Daftar personel puslat kodiklatau terintegrasi";
   const el = document.getElementById("typingInfo");
 
-  if (!el) return;
-
   function mulaiKetik() {
 
     el.innerHTML = "";
@@ -382,7 +388,6 @@ function ketikInfo() {
 
         clearInterval(interval);
 
-        // jeda sebelum ulang lagi
         setTimeout(mulaiKetik, 1500);
       }
 
@@ -392,7 +397,7 @@ function ketikInfo() {
   mulaiKetik();
 }
 async function startTyping() {
-
+  ketikInfo();
   const terminal = document.getElementById("terminal");
 
   const textBefore = `
@@ -412,7 +417,7 @@ CLASSIFICATION: `;
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
 DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
-<span id="typingInfo" style="color:#777777;"></span> 
+ 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
