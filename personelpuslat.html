@@ -196,7 +196,27 @@ pre {
   overflow-x:auto;
   margin-top:15px;
 }
+/* KEDIP KUNING */
+.baris-kedip-kuning {
+  animation: kedipKuningBaris 0.6s infinite;
+}
 
+@keyframes kedipKuningBaris {
+  0%   { background-color: rgba(255,255,0,0.08); }
+  50%  { background-color: rgba(80,80,0,0.3); }
+  100% { background-color: rgba(255,255,0,0.08); }
+}
+
+.blink-kuning {
+  color: #ffff00;
+  animation: kedipKuning 0.5s infinite;
+}
+
+@keyframes kedipKuning {
+  0%   { color: #ffff00; }
+  50%  { color: #555500; }
+  100% { color: #ffff00; }
+}
 </style>
 </head>
 <body>
@@ -533,27 +553,55 @@ NO              NAMA                     PANGKAT                              JA
 
       const angka = masa.match(/\d+/g);
 
-      const tahun = angka ? parseInt(angka[0]) : 0;
-      const bulan = angka ? parseInt(angka[1]) : 0;
+const tahun = angka ? parseInt(angka[0]) : 0;
+const bulan = angka ? parseInt(angka[1]) : 0;
+const hari  = angka ? parseInt(angka[2]) : 0;
 
-      let wrapStart = "";
-      let wrapEnd = "";
+let wrapStart = "";
+let wrapEnd = "";
 
-      if (tahun === 0 && bulan < 2) {
+/* =========================
+   HIJAU NORMAL
+   0th 0bln 0hr → 1th 5bln 0hr
+========================= */
 
-        wrapStart = `<span class="baris-kedip-hijau">`;
-        wrapEnd = `</span>`;
+if (
+  tahun < 1 ||
+  (tahun === 1 && bulan < 5) ||
+  (tahun === 1 && bulan === 5 && hari === 0)
+) {
 
-        masaFix = `<span class="blink-hijau">${masa}</span>`;
-      }
+  masaFix = `<span style="color:#00ff00;">${masa}</span>`;
+}
 
-      else if (tahun >= 2) {
+/* =========================
+   KUNING KEDIP
+   1th 5bln 1hr → 1th 11bln 30hr
+========================= */
 
-        wrapStart = `<span class="baris-kedip-merah">`;
-        wrapEnd = `</span>`;
+else if (
+  (tahun === 1 && bulan > 5) ||
+  (tahun === 1 && bulan === 5 && hari > 0)
+) {
 
-        masaFix = `<span class="blink-merah">${masa}</span>`;
-      }
+  wrapStart = `<span class="baris-kedip-kuning">`;
+  wrapEnd = `</span>`;
+
+  masaFix = `<span class="blink-kuning">${masa}</span>`;
+}
+
+/* =========================
+   MERAH KEDIP
+   >= 2th
+========================= */
+
+if (tahun >= 2) {
+
+  wrapStart = `<span class="baris-kedip-merah">`;
+  wrapEnd = `</span>`;
+
+  masaFix = `<span class="blink-merah">${masa}</span>`;
+}
 
       let line =
         `${String(row.no).padEnd(5)}` +
