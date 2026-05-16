@@ -242,61 +242,88 @@ function hitungMasa(tmt) {
 
   let start;
 
-  // Jika format Date asli
-  if (tmt instanceof Date) {
+  // =========================
+  // FORMAT dd/mm/yyyy
+  // =========================
+  if (typeof tmt === "string" && tmt.includes("/")) {
+
+    const p = tmt.split("/");
+
+    const hari = parseInt(p[0], 10);
+    const bulan = parseInt(p[1], 10) - 1;
+    let tahun = p[2];
+
+    // support tahun 2 digit
+    if (tahun.length === 2) {
+      tahun = "20" + tahun;
+    }
+
+    tahun = parseInt(tahun, 10);
+
+    start = new Date(tahun, bulan, hari);
+  }
+
+  // =========================
+  // FORMAT yyyy-mm-dd
+  // =========================
+  else if (typeof tmt === "string" && tmt.includes("-")) {
+
+    const p = tmt.split("-");
+
+    const tahun = parseInt(p[0], 10);
+    const bulan = parseInt(p[1], 10) - 1;
+    const hari = parseInt(p[2], 10);
+
+    start = new Date(tahun, bulan, hari);
+  }
+
+  // =========================
+  // DATE OBJECT
+  // =========================
+  else if (tmt instanceof Date) {
+
     start = tmt;
   }
 
-  // Jika string
   else {
 
-    tmt = String(tmt).trim();
-
-    // format dd/mm/yyyy
-    if (tmt.includes("/")) {
-
-      const p = tmt.split("/");
-
-      let tahun = p[2];
-
-      // support tahun 2 digit
-      if (tahun.length === 2) {
-        tahun = "20" + tahun;
-      }
-
-      start = new Date(tahun, p[1] - 1, p[0]);
-    }
-
-    // format yyyy-mm-dd
-    else if (tmt.includes("-")) {
-
-      start = new Date(tmt);
-    }
-
-    else {
-      start = new Date(tmt);
-    }
+    start = new Date(tmt);
   }
-  // validasi tanggal
+
+  // validasi
   if (isNaN(start.getTime())) return "-";
 
   const today = new Date();
 
-  let y = today.getFullYear() - start.getFullYear();
-  let m = today.getMonth() - start.getMonth();
-  let d = today.getDate() - start.getDate();
+  let tahun = today.getFullYear() - start.getFullYear();
+  let bulan = today.getMonth() - start.getMonth();
+  let hari = today.getDate() - start.getDate();
 
-  if (d < 0) {
-    m--;
-    d += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+  if (hari < 0) {
+
+    bulan--;
+
+    const lastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      0
+    ).getDate();
+
+    hari += lastMonth;
   }
 
-  if (m < 0) {
-    y--;
-    m += 12;
+  if (bulan < 0) {
+
+    tahun--;
+    bulan += 12;
   }
 
-  return `${y} th ${m} bln ${d} hr`;
+  // kalau tanggal masa depan
+  if (start > today) {
+    return "BELUM MASUK";
+  }
+
+  return `${tahun} th ${bulan} bln ${hari} hr`;
 }
 function formatTanggal(tgl) {
 
