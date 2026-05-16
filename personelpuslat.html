@@ -588,10 +588,10 @@ NO              NAMA                     PANGKAT                              JA
 
 /* ================== DOWNLOAD ================== */
 function downloadFile() {
-  window.open(
-    "https://drive.google.com/uc?export=download&id=AKfycbzSrEPgNgDKGK5JsfoAHDmWOt2m8jXjWLWXoxeHKQKZRWx8Ffy8h7fYo_Akcyx3Uvo",
-    "_blank"
-  );
+  const fileId = "1GAPWqs98GSMypnKYeow_oWzSYtAgzK6h";
+  const url =
+    `https://docs.google.com/spreadsheets/d/${fileId}/export?format=pdf`;
+  window.open(url, "_blank");
 }
 
   async function loadPersonelMasuk() {
