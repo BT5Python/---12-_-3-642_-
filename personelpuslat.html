@@ -366,19 +366,30 @@ function ketikInfo() {
 
   if (!el) return;
 
-  let i = 0;
+  function mulaiKetik() {
 
-  const interval = setInterval(() => {
+    el.innerHTML = "";
 
-    el.innerHTML += text.charAt(i);
+    let i = 0;
 
-    i++;
+    const interval = setInterval(() => {
 
-    if (i >= text.length) {
-      clearInterval(interval);
-    }
+      el.innerHTML += text.charAt(i);
 
-  }, 40);
+      i++;
+
+      if (i >= text.length) {
+
+        clearInterval(interval);
+
+        // jeda sebelum ulang lagi
+        setTimeout(mulaiKetik, 1500);
+      }
+
+    }, 40);
+  }
+
+  mulaiKetik();
 }
 async function startTyping() {
 
