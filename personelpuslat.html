@@ -276,7 +276,28 @@ function hitungMasa(tmt) {
     else {
       start = new Date(tmt);
     }
+  
+  function formatTanggal(tgl) {
+
+  if (!tgl) return "-";
+
+  tgl = String(tgl).trim();
+
+  // kalau sudah dd/mm/yyyy
+  if (tgl.includes("/") && tgl.length <= 10) {
+    return tgl;
   }
+
+  const d = new Date(tgl);
+
+  if (isNaN(d.getTime())) return tgl;
+
+  const hari = String(d.getDate()).padStart(2, "0");
+  const bulan = String(d.getMonth() + 1).padStart(2, "0");
+  const tahun = d.getFullYear();
+
+  return `${hari}/${bulan}/${tahun}`;
+}
 
   // validasi tanggal
   if (isNaN(start.getTime())) return "-";
@@ -408,7 +429,7 @@ async function startTyping() {
       }
 
       let line =
-`${row.no.toString().padEnd(5)}${row.nama.padEnd(35)}${row.pangkat.padEnd(20)}${row.jabatan.padEnd(42)}${row.tmt.padEnd(20)}${row.keterangan.padEnd(15)}${masaFix}\n`;
+`${row.no.toString().padEnd(5)}${row.nama.padEnd(35)}${row.pangkat.padEnd(20)}${row.jabatan.padEnd(42)}${tmtFix.padEnd(20)}${row.keterangan.padEnd(15)}${masaFix}\n`;
 
       if (String(row.pangkat).toUpperCase().includes("PNS")) {
         line = `<span class="yellow">${line}</span>`;
@@ -501,8 +522,8 @@ function downloadFile() {
     } else {
       // data adalah array of objects {no,nama,pangkat,...}
       data.forEach(row => {
-        const tmt = row.tmt || row.E || row[4] || "";
-        const masa = hitungMasa(tmt);
+        const tmtFix = formatTanggal(row.tmt);
+        const masa = hitungMasa(tmtFix);
         let masaFix = masa;
         const angka = masa.match(/\d+/g);
         const tahun = angka ? parseInt(angka[0]) : 0;
