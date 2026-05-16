@@ -237,10 +237,50 @@ lines.forEach((line, index) => {
 
 /* ================== HITUNG MASA DINAS ================== */
 function hitungMasa(tmt) {
-  if (!tmt || !tmt.includes("/")) return "-";
 
-  const p = tmt.split("/");
-  const start = new Date(p[2], p[1] - 1, p[0]);
+  if (!tmt) return "-";
+
+  let start;
+
+  // Jika format Date asli
+  if (tmt instanceof Date) {
+    start = tmt;
+  }
+
+  // Jika string
+  else {
+
+    tmt = String(tmt).trim();
+
+    // format dd/mm/yyyy
+    if (tmt.includes("/")) {
+
+      const p = tmt.split("/");
+
+      let tahun = p[2];
+
+      // support tahun 2 digit
+      if (tahun.length === 2) {
+        tahun = "20" + tahun;
+      }
+
+      start = new Date(tahun, p[1] - 1, p[0]);
+    }
+
+    // format yyyy-mm-dd
+    else if (tmt.includes("-")) {
+
+      start = new Date(tmt);
+    }
+
+    else {
+      start = new Date(tmt);
+    }
+  }
+
+  // validasi tanggal
+  if (isNaN(start.getTime())) return "-";
+
   const today = new Date();
 
   let y = today.getFullYear() - start.getFullYear();
@@ -251,6 +291,7 @@ function hitungMasa(tmt) {
     m--;
     d += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
   }
+
   if (m < 0) {
     y--;
     m += 12;
