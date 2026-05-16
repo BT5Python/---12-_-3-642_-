@@ -240,27 +240,23 @@ function hitungMasa(tmt) {
 
   if (!tmt) return "-";
 
-  let start;
+  let hari, bulan, tahun;
 
   // =========================
   // FORMAT dd/mm/yyyy
   // =========================
   if (typeof tmt === "string" && tmt.includes("/")) {
 
-    const p = tmt.split("/");
+    const p = tmt.trim().split("/");
 
-    const hari = parseInt(p[0], 10);
-    const bulan = parseInt(p[1], 10) - 1;
-    let tahun = p[2];
+    hari = parseInt(p[0], 10);
+    bulan = parseInt(p[1], 10);
+    tahun = parseInt(p[2], 10);
 
-    // support tahun 2 digit
-    if (tahun.length === 2) {
-      tahun = "20" + tahun;
+    // support 2 digit year
+    if (tahun < 100) {
+      tahun += 2000;
     }
-
-    tahun = parseInt(tahun, 10);
-
-    start = new Date(tahun, bulan, hari);
   }
 
   // =========================
@@ -268,106 +264,61 @@ function hitungMasa(tmt) {
   // =========================
   else if (typeof tmt === "string" && tmt.includes("-")) {
 
-    const p = tmt.split("-");
+    const p = tmt.trim().split("-");
 
-    const tahun = parseInt(p[0], 10);
-    const bulan = parseInt(p[1], 10) - 1;
-    const hari = parseInt(p[2], 10);
-
-    start = new Date(tahun, bulan, hari);
-  }
-
-  // =========================
-  // DATE OBJECT
-  // =========================
-  else if (tmt instanceof Date) {
-
-    start = tmt;
+    tahun = parseInt(p[0], 10);
+    bulan = parseInt(p[1], 10);
+    hari = parseInt(p[2], 10);
   }
 
   else {
-
-    start = new Date(tmt);
+    return "-";
   }
 
-  // validasi
-  if (isNaN(start.getTime())) return "-";
-
-   // =========================
-  // RESET JAM BIAR AKURAT
   // =========================
-  const today = new Date();
-  today.setHours(0,0,0,0);
+  // TANGGAL HARI INI
+  // =========================
+  const now = new Date();
 
-  start.setHours(0,0,0,0);
+  let thnNow = now.getFullYear();
+  let blnNow = now.getMonth() + 1;
+  let hrNow  = now.getDate();
 
   // =========================
-  // HITUNG SELISIH
+  // HITUNG
   // =========================
-  let tahun = today.getFullYear() - start.getFullYear();
-  let bulan = today.getMonth() - start.getMonth();
-  let hari = today.getDate() - start.getDate();
+  let selisihTahun = thnNow - tahun;
+  let selisihBulan = blnNow - bulan;
+  let selisihHari  = hrNow - hari;
 
-  // jika hari minus
-  if (hari < 0) {
+  // pinjam hari
+  if (selisihHari < 0) {
 
-    bulan--;
+    selisihBulan--;
 
     const jumlahHariBulanLalu = new Date(
-      today.getFullYear(),
-      today.getMonth(),
+      thnNow,
+      blnNow - 1,
       0
     ).getDate();
 
-    hari += jumlahHariBulanLalu;
+    selisihHari += jumlahHariBulanLalu;
   }
 
-  // jika bulan minus
-  if (bulan < 0) {
+  // pinjam bulan
+  if (selisihBulan < 0) {
 
-    tahun--;
-    bulan += 12;
+    selisihTahun--;
+    selisihBulan += 12;
   }
 
   // tanggal masa depan
-  if (start > today) {
+  if (selisihTahun < 0) {
     return "BELUM MASUK";
   }
 
-  return `${tahun} th ${bulan} bln ${hari} hr`;
+  return `${selisihTahun} th ${selisihBulan} bln ${selisihHari} hr`;
 }
-function formatTanggal(tgl) {
-
-  if (!tgl) return "-";
-
-  // Jika sudah format Indonesia dd/mm/yyyy
-  if (typeof tgl === "string" && tgl.includes("/")) {
-
-    const p = tgl.split("/");
-
-    // pastikan dd/mm/yyyy
-    if (p.length === 3) {
-
-      const hari = p[0].padStart(2, "0");
-      const bulan = p[1].padStart(2, "0");
-      const tahun = p[2];
-
-      return `${hari}/${bulan}/${tahun}`;
-    }
-  }
-
-  // Jika Date object / ISO
-  const d = new Date(tgl);
-
-  if (isNaN(d.getTime())) return "-";
-
-  const hari = String(d.getDate()).padStart(2, "0");
-  const bulan = String(d.getMonth() + 1).padStart(2, "0");
-  const tahun = d.getFullYear();
-
-  return `${hari}/${bulan}/${tahun}`;
-}
-
 
 /* ================== FETCH DATA (AUTO: PERSONEL MASUK) ================== */
 async function fetchData() {
@@ -454,9 +405,6 @@ async function startTyping() {
     const data = await fetchData();
 
     data.forEach(row => {
-      console.log("TMT ASLI:", row.tmt);
-      console.log("TMT FIX :", tmtFix);
-      console.log("MASA    :", masa);
       const tmtFix = formatTanggal(row.tmt);
       const masa = hitungMasa(tmtFix);
       const angka = masa.match(/\d+/g);
