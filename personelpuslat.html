@@ -389,7 +389,6 @@ function ketikInfo() {
   mulaiKetik();
 }
 async function startTyping() {
-  ketikInfo();
   const terminal = document.getElementById("terminal");
 
   const textBefore = `
@@ -465,28 +464,29 @@ DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
     return setTimeout(type, 1);
   }
 
-  // tampilkan HEADER dulu
-  terminal.innerHTML += tableHeader;
-
-  // lalu buat tulisan ketik di bawah DATE/TIME
+  // HEADER
   terminal.innerHTML += `
+                                                              DAFTAR PERSONEL PUSLAT KODIKLATAU
+Klasifikasi  :  RAHASIA
+STATUS       :  Update
+DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
+
 <span id="typingInfo" style="
 color:#777777;
 display:block;
 margin-top:2px;
 margin-bottom:2px;
 "></span>
-`;
 
-  // mulai efek ketik
-  setTimeout(ketikInfo, 100);
-
-  // lanjut garis & header tabel
-  terminal.innerHTML += `
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 `;
+
+  // BARU JALANKAN EFEK KETIK
+  setTimeout(() => {
+    ketikInfo();
+  }, 100);
 }
   }
 
