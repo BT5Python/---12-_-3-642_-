@@ -557,50 +557,103 @@ const tahun = angka ? parseInt(angka[0]) : 0;
 const bulan = angka ? parseInt(angka[1]) : 0;
 const hari  = angka ? parseInt(angka[2]) : 0;
 
+const nomor = parseInt(row.no);
+
 let wrapStart = "";
 let wrapEnd = "";
+let warnaText = "";
 
-/* =========================
-   HIJAU NORMAL
-   0th 0bln 0hr → 1th 5bln 0hr
-========================= */
+/* ===================================================
+   NO 1 s.d 19
+=================================================== */
 
-if (
-  tahun < 1 ||
-  (tahun === 1 && bulan < 5) ||
-  (tahun === 1 && bulan === 5 && hari === 0)
-) {
+if (nomor >= 1 && nomor <= 19) {
 
-  masaFix = `<span style="color:#00ff00;">${masa}</span>`;
+  // HIJAU NORMAL
+  if (
+    tahun < 1 ||
+    (tahun === 1 && bulan <= 5)
+  ) {
+
+    warnaText = "#00ff00";
+  }
+
+  // KUNING NORMAL
+  else if (
+    tahun === 1 &&
+    bulan >= 6 &&
+    bulan <= 11
+  ) {
+
+    warnaText = "#ffff00";
+  }
+
+  // MERAH KEDIP
+  else if (tahun >= 2) {
+
+    wrapStart = `<span class="baris-kedip-merah">`;
+    wrapEnd = `</span>`;
+
+    masaFix = `<span class="blink-merah">${masa}</span>`;
+  }
 }
 
-/* =========================
-   KUNING KEDIP
-   1th 5bln 1hr → 1th 11bln 30hr
-========================= */
+/* ===================================================
+   NO 20 s.d 68
+=================================================== */
 
-else if (
-  (tahun === 1 && bulan > 5) ||
-  (tahun === 1 && bulan === 5 && hari > 0)
-) {
+else if (nomor >= 20 && nomor <= 68) {
 
-  wrapStart = `<span class="baris-kedip-kuning">`;
-  wrapEnd = `</span>`;
+  // HIJAU NORMAL
+  if (
+    tahun < 3 ||
+    (tahun === 3 && bulan === 0 && hari === 0)
+  ) {
 
-  masaFix = `<span class="blink-kuning">${masa}</span>`;
+    warnaText = "#00ff00";
+  }
+
+  // KUNING NORMAL
+  else if (
+    (tahun === 3 && (bulan > 0 || hari > 0)) ||
+    (tahun === 3 && bulan <= 11)
+  ) {
+
+    warnaText = "#ffff00";
+  }
+
+  // MERAH KEDIP
+  else if (
+    tahun >= 4
+  ) {
+
+    wrapStart = `<span class="baris-kedip-merah">`;
+    wrapEnd = `</span>`;
+
+    masaFix = `<span class="blink-merah">${masa}</span>`;
+  }
 }
 
-/* =========================
-   MERAH KEDIP
-   >= 2th
-========================= */
+/* ===================================================
+   NO 69 s.d 71
+   NORMAL TANPA WARNA
+=================================================== */
 
-if (tahun >= 2) {
+else if (nomor >= 69 && nomor <= 71) {
 
-  wrapStart = `<span class="baris-kedip-merah">`;
-  wrapEnd = `</span>`;
+  warnaText = "";
+}
 
-  masaFix = `<span class="blink-merah">${masa}</span>`;
+/* ===================================================
+   APPLY WARNA
+=================================================== */
+
+if (!masaFix.includes("blink-merah")) {
+
+  if (warnaText !== "") {
+
+    masaFix = `<span style="color:${warnaText};">${masa}</span>`;
+  }
 }
 
       let line =
