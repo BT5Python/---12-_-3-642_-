@@ -409,7 +409,7 @@ CLASSIFICATION: `;
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
 DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
-<span id="typingInfo" style="color:#777777;"></span>
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -469,8 +469,23 @@ NO              NAMA                     PANGKAT                              JA
         return setTimeout(type, 1);
       }
 
-      terminal.innerHTML += tableHeader;
-      setTimeout(ketikInfo, 100);
+      terminal.innerHTML += `
+<span id="typingInfo" style="
+color:#777777;
+display:block;
+margin-top:2px;
+margin-bottom:2px;
+"></span>
+`;
+
+setTimeout(ketikInfo, 100);
+
+// lanjut header tabel
+terminal.innerHTML += `
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+`;
     }
   }
 
