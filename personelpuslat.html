@@ -302,16 +302,26 @@ function formatTanggal(tgl) {
 
   if (!tgl) return "-";
 
-  tgl = String(tgl).trim();
+  // Jika sudah format Indonesia dd/mm/yyyy
+  if (typeof tgl === "string" && tgl.includes("/")) {
 
-  // kalau sudah dd/mm/yyyy
-  if (tgl.includes("/") && tgl.length <= 10) {
-    return tgl;
+    const p = tgl.split("/");
+
+    // pastikan dd/mm/yyyy
+    if (p.length === 3) {
+
+      const hari = p[0].padStart(2, "0");
+      const bulan = p[1].padStart(2, "0");
+      const tahun = p[2];
+
+      return `${hari}/${bulan}/${tahun}`;
+    }
   }
 
+  // Jika Date object / ISO
   const d = new Date(tgl);
 
-  if (isNaN(d.getTime())) return tgl;
+  if (isNaN(d.getTime())) return "-";
 
   const hari = String(d.getDate()).padStart(2, "0");
   const bulan = String(d.getMonth() + 1).padStart(2, "0");
