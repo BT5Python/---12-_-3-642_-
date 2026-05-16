@@ -589,8 +589,9 @@ NO              NAMA                     PANGKAT                              JA
 /* ================== DOWNLOAD ================== */
 function downloadFile() {
   const fileId = "1PWOrFxChuYUVgYPEfr5AzDrUpo6j7Zv-QVw-VlqhXg8";
+  const gid = "899021028";
   const url =
-    `https://docs.google.com/spreadsheets/d/${fileId}/export?format=pdf`;
+    `https://docs.google.com/spreadsheets/d/${fileId}/export?format=pdf&gid=${gid}`;
   window.open(url, "_blank");
 }
 
