@@ -343,6 +343,22 @@ async function fetchData() {
 
 
 /* ================== EFEK KETIK ================== */
+function getDateTime() {
+
+  const now = new Date();
+
+  const tanggal =
+    String(now.getDate()).padStart(2, "0") + "/" +
+    String(now.getMonth() + 1).padStart(2, "0") + "/" +
+    now.getFullYear();
+
+  const jam =
+    String(now.getHours()).padStart(2, "0") + ":" +
+    String(now.getMinutes()).padStart(2, "0") + ":" +
+    String(now.getSeconds()).padStart(2, "0");
+
+  return `${tanggal} ${jam}`;
+}
 async function startTyping() {
 
   const terminal = document.getElementById("terminal");
@@ -362,7 +378,7 @@ async function startTyping() {
                                                               DAFTAR PERSONEL PUSLAT KODIKLATAU
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
-DATE/TIME    :
+DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -427,6 +443,15 @@ NO              NAMA                     PANGKAT                              JA
   }
 
   type();
+  setInterval(() => {
+
+  const dateElement = document.getElementById("liveTime");
+
+  if (dateElement) {
+    dateElement.innerHTML = getDateTime();
+  }
+
+}, 1000);
 
   // tampilkan data
   setTimeout(async () => {
