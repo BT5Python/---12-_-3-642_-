@@ -293,32 +293,43 @@ function hitungMasa(tmt) {
   // validasi
   if (isNaN(start.getTime())) return "-";
 
+   // =========================
+  // RESET JAM BIAR AKURAT
+  // =========================
   const today = new Date();
+  today.setHours(0,0,0,0);
 
+  start.setHours(0,0,0,0);
+
+  // =========================
+  // HITUNG SELISIH
+  // =========================
   let tahun = today.getFullYear() - start.getFullYear();
   let bulan = today.getMonth() - start.getMonth();
   let hari = today.getDate() - start.getDate();
 
+  // jika hari minus
   if (hari < 0) {
 
     bulan--;
 
-    const lastMonth = new Date(
+    const jumlahHariBulanLalu = new Date(
       today.getFullYear(),
       today.getMonth(),
       0
     ).getDate();
 
-    hari += lastMonth;
+    hari += jumlahHariBulanLalu;
   }
 
+  // jika bulan minus
   if (bulan < 0) {
 
     tahun--;
     bulan += 12;
   }
 
-  // kalau tanggal masa depan
+  // tanggal masa depan
   if (start > today) {
     return "BELUM MASUK";
   }
