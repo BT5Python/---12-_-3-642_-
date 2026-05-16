@@ -451,12 +451,24 @@ async function startTyping() {
 
   /* tampilkan data */
   setTimeout(async () => {
-    const data = await fetchData();
-    console.log(data);
+    const data = await fetchData();    
     data.forEach(row => {
+      data.forEach(row => {
 
+  // skip header / baris kosong
+  if (
+    !row.tmt ||
+    row.tmt === "TMT MASUK" ||
+    row.no === "NO" ||
+    row.no === "PUSLAT" ||
+    row.no === "DAFTAR PERSONEL" ||
+    row.no === "STATUS : Update"
+    ) {
+    return;
+    }
       const tmtFix = formatTanggal(row.tmt);
       const masa = hitungMasa(tmtFix);
+      let masaFix = masa;
       const angka = masa.match(/\d+/g);
       const tahun = angka ? parseInt(angka[0]) : 0;
       const bulan = angka ? parseInt(angka[1]) : 0;
