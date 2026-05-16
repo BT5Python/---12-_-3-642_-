@@ -417,7 +417,7 @@ CLASSIFICATION: `;
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
 DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
- 
+<span id="typingInfo" style="color:#777777;"></span>
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -560,11 +560,17 @@ NO              NAMA                     PANGKAT                              JA
         line = `<span class="yellow">${line}</span>`;
       }
 
-      terminal.innerHTML += wrapStart + line + wrapEnd;
+      terminal.insertAdjacentHTML(
+        "beforeend",
+        wrapStart + line + wrapEnd
+      );
 
     });
 
-    terminal.innerHTML += footer;
+    terminal.insertAdjacentHTML(
+        "beforeend",
+        footer
+    );
 
     terminal.classList.remove("typing");
 
