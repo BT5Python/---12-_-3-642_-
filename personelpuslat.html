@@ -452,7 +452,7 @@ async function startTyping() {
   /* tampilkan data */
   setTimeout(async () => {
     const data = await fetchData();
-
+    console.log(data);
     data.forEach(row => {
 
       const tmtFix = formatTanggal(row.tmt);
