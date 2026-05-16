@@ -409,10 +409,6 @@ CLASSIFICATION: `;
 Klasifikasi  :  RAHASIA
 STATUS       :  Update
 DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
-
------------------------------------------------------------------------------------------------------------------------------------------------------------
-NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
------------------------------------------------------------------------------------------------------------------------------------------------------------
 `;
 
   const footer = `
@@ -463,13 +459,17 @@ NO              NAMA                     PANGKAT                              JA
 
     if (step === 2) {
 
-      if (i < textAfterTop.length) {
+  if (i < textAfterTop.length) {
 
-        terminal.innerHTML += textAfterTop.charAt(i++);
-        return setTimeout(type, 1);
-      }
+    terminal.innerHTML += textAfterTop.charAt(i++);
+    return setTimeout(type, 1);
+  }
 
-      terminal.innerHTML += `
+  // tampilkan HEADER dulu
+  terminal.innerHTML += tableHeader;
+
+  // lalu buat tulisan ketik di bawah DATE/TIME
+  terminal.innerHTML += `
 <span id="typingInfo" style="
 color:#777777;
 display:block;
@@ -478,15 +478,16 @@ margin-bottom:2px;
 "></span>
 `;
 
-setTimeout(ketikInfo, 100);
+  // mulai efek ketik
+  setTimeout(ketikInfo, 100);
 
-// lanjut header tabel
-terminal.innerHTML += `
+  // lanjut garis & header tabel
+  terminal.innerHTML += `
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 NO              NAMA                     PANGKAT                              JABATAN                 TMT MASUK        TMT KELUAR           KETERANGAN
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 `;
-    }
+}
   }
 
   type();
