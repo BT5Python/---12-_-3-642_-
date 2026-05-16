@@ -242,47 +242,16 @@ function hitungMasa(tmt) {
 
   let start;
 
-  // =========================
-  // FORMAT dd/mm/yyyy
-  // =========================
+  // format dd/mm/yyyy
   if (typeof tmt === "string" && tmt.includes("/")) {
 
     const p = tmt.split("/");
 
     const hari = parseInt(p[0], 10);
     const bulan = parseInt(p[1], 10) - 1;
-    let tahun = p[2];
-
-    // support tahun 2 digit
-    if (tahun.length === 2) {
-      tahun = "20" + tahun;
-    }
-
-    tahun = parseInt(tahun, 10);
+    const tahun = parseInt(p[2], 10);
 
     start = new Date(tahun, bulan, hari);
-  }
-
-  // =========================
-  // FORMAT yyyy-mm-dd
-  // =========================
-  else if (typeof tmt === "string" && tmt.includes("-")) {
-
-    const p = tmt.split("-");
-
-    const tahun = parseInt(p[0], 10);
-    const bulan = parseInt(p[1], 10) - 1;
-    const hari = parseInt(p[2], 10);
-
-    start = new Date(tahun, bulan, hari);
-  }
-
-  // =========================
-  // DATE OBJECT
-  // =========================
-  else if (tmt instanceof Date) {
-
-    start = tmt;
   }
 
   else {
@@ -290,48 +259,40 @@ function hitungMasa(tmt) {
     start = new Date(tmt);
   }
 
-  // validasi
   if (isNaN(start.getTime())) return "-";
 
-   // =========================
-  // RESET JAM BIAR AKURAT
-  // =========================
   const today = new Date();
-  today.setHours(0,0,0,0);
 
+  // reset jam
+  today.setHours(0,0,0,0);
   start.setHours(0,0,0,0);
 
-  // =========================
-  // HITUNG SELISIH
-  // =========================
+  // kalau masa depan
+  if (start > today) {
+    return "BELUM MASUK";
+  }
+
   let tahun = today.getFullYear() - start.getFullYear();
   let bulan = today.getMonth() - start.getMonth();
   let hari = today.getDate() - start.getDate();
 
-  // jika hari minus
   if (hari < 0) {
 
     bulan--;
 
-    const jumlahHariBulanLalu = new Date(
+    const lastMonth = new Date(
       today.getFullYear(),
       today.getMonth(),
       0
     ).getDate();
 
-    hari += jumlahHariBulanLalu;
+    hari += lastMonth;
   }
 
-  // jika bulan minus
   if (bulan < 0) {
 
     tahun--;
     bulan += 12;
-  }
-
-  // tanggal masa depan
-  if (start > today) {
-    return "BELUM MASUK";
   }
 
   return `${tahun} th ${bulan} bln ${hari} hr`;
@@ -450,59 +411,67 @@ async function startTyping() {
   type();
 
   /* tampilkan data */
-  setTimeout(async () => {
-    const data = await fetchData();    
-    data.forEach(row => {
-      data.forEach(row => {
+  function hitungMasa(tmt) {
 
-  // skip header / baris kosong
-  if (
-    !row.tmt ||
-    row.tmt === "TMT MASUK" ||
-    row.no === "NO" ||
-    row.no === "PUSLAT" ||
-    row.no === "DAFTAR PERSONEL" ||
-    row.no === "STATUS : Update"
-    ) {
-    return;
-    }
-      const tmtFix = formatTanggal(row.tmt);
-      const masa = hitungMasa(tmtFix);
-      let masaFix = masa;
-      const angka = masa.match(/\d+/g);
-      const tahun = angka ? parseInt(angka[0]) : 0;
-      const bulan = angka ? parseInt(angka[1]) : 0;
+  if (!tmt) return "-";
 
-      let wrapStart = "";
-      let wrapEnd = "";
+  let start;
 
-      if (tahun === 0 && bulan < 2) {
-        wrapStart = `<span class="baris-kedip-hijau">`;
-        wrapEnd = `</span>`;
-        masaFix = `<span class="blink-hijau">${masa}</span>`;
-      }
-      else if (tahun >= 2) {
-        wrapStart = `<span class="baris-kedip-merah">`;
-        wrapEnd = `</span>`;
-        masaFix = `<span class="blink-merah">${masa}</span>`;
-      }
+  // format dd/mm/yyyy
+  if (typeof tmt === "string" && tmt.includes("/")) {
 
-      let line = `${row.no.toString().padEnd(5)}${row.nama.padEnd(35)}${row.pangkat.padEnd(20)}${row.jabatan.padEnd(42)}${tmtFix.padEnd(20)}${row.keterangan.padEnd(15)}${masaFix}\n`;
+    const p = tmt.split("/");
 
-      if (String(row.pangkat).toUpperCase().includes("PNS")) {
-        line = `<span class="yellow">${line}</span>`;
-      }
+    const hari = parseInt(p[0], 10);
+    const bulan = parseInt(p[1], 10) - 1;
+    const tahun = parseInt(p[2], 10);
 
-      terminal.innerHTML += wrapStart + line + wrapEnd;
-    });
+    start = new Date(tahun, bulan, hari);
+  }
 
-    terminal.innerHTML += footer;
-    terminal.classList.remove("typing");
-    document.getElementById("buttons").classList.remove("hidden");
+  else {
 
-  }, 2500);
+    start = new Date(tmt);
+  }
+
+  if (isNaN(start.getTime())) return "-";
+
+  const today = new Date();
+
+  // reset jam
+  today.setHours(0,0,0,0);
+  start.setHours(0,0,0,0);
+
+  // kalau masa depan
+  if (start > today) {
+    return "BELUM MASUK";
+  }
+
+  let tahun = today.getFullYear() - start.getFullYear();
+  let bulan = today.getMonth() - start.getMonth();
+  let hari = today.getDate() - start.getDate();
+
+  if (hari < 0) {
+
+    bulan--;
+
+    const lastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      0
+    ).getDate();
+
+    hari += lastMonth;
+  }
+
+  if (bulan < 0) {
+
+    tahun--;
+    bulan += 12;
+  }
+
+  return `${tahun} th ${bulan} bln ${hari} hr`;
 }
-
 
 /* ================== DOWNLOAD ================== */
 function downloadFile() {
