@@ -279,54 +279,6 @@ function typeEffect() {
 }
 typeEffect();
 </script>
-<script>
-function backToDatabase(){
-// ada halaman sebelumnya?
-if(document.referrer){
-const prev =
-document.referrer.toLowerCase();
-if(
-prev.includes(
-"bankfile"
-)
-){
-window.location.href =
-"bankfile.html";
-return;
-}
-if(
-prev.includes(
-"sisteminformasi"
-)
-){
-window.location.href =
-"sisteminformasi.html";
-return;
-}
-if(
-prev.includes(
-"personelpuslat"
-)
-){
-window.location.href =
-"personelpuslat.html";
-return;
-}
-if(
-prev.includes(
-"database"
-)
-){
-window.location.href =
-"database.html";
-return;
-}
-}
-// fallback
-window.location.href =
-"database.html";
-}
-</script>
 </body>
 </html>
 
