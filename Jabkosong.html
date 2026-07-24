@@ -127,6 +127,24 @@ pre {
 @media (max-width: 1100px) { #terminal { font-size: 8px !important; } }
 @media (max-width: 800px)  { #terminal { font-size: 7px !important; } }
 @media (max-width: 600px)  { #terminal { font-size: 6px !important; } }
+
+/* KOMANDO ATAS merah berkedip */
+.blink-komando {
+  color: #ff0000;
+  font-weight: bold;
+  animation: blinkKomando 0.45s infinite;
+}
+
+@keyframes blinkKomando {
+  0%,100% {
+    color: #ff0000;
+    text-shadow: 0 0 8px #ff0000;
+  }
+  50% {
+    color: #330000;
+    text-shadow: none;
+  }
+}
 </style>
 </head>
 
@@ -333,18 +351,23 @@ INVALID JSON RESPONSE
       }
 
       const keterangan =
-        String(row.keterangan || "")
-        .toUpperCase();
+  String(row.keterangan || "")
+  .toUpperCase();
 
-      if (keterangan.includes("PRIORITAS")) {
+if (keterangan.includes("KOMANDO ATAS")) {
 
-        terminal.innerHTML +=
-          `<span class="blink-prioritas">${line}</span>`;
+  terminal.innerHTML +=
+    `<span class="blink-komando">${line}</span>`;
 
-      } else {
+} else if (keterangan.includes("PRIORITAS")) {
 
-        terminal.innerHTML += line;
-      }
+  terminal.innerHTML +=
+    `<span class="blink-prioritas">${line}</span>`;
+
+} else {
+
+  terminal.innerHTML += line;
+}
     });
 
     terminal.innerHTML += `
