@@ -436,7 +436,9 @@ DATE/TIME    :  <span id="liveTime" class="blink-merah">${getDateTime()}</span>
 <div class="button-container" id="buttons">
   <button onclick="window.location.href='personelmasuk.html'">PERSONEL MASUK</button>
   <button onclick="window.location.href='personelkeluar.html'">PERSONEL KELUAR</button>
-  <button onclick="window.location.href='database.html'">BACK TO DATABASE</button>
+  <button onclick="backToDatabase()">
+BACK TO DATABASE
+</button>
   <button class="download-btn" onclick="downloadFile()">DOWNLOAD</button>
 </div>
 `;
@@ -868,6 +870,16 @@ document.addEventListener("click", function() {
   forceFullscreen();
 }, { once: true });
 </script>
+<script>
+function backToDatabase() {
+    const from = new URLSearchParams(window.location.search).get("from");
 
+    if (from === "dispers") {
+        window.location.href = "dispers.html";
+    } else {
+        window.location.href = "database.html";
+    }
+}
+</script>
 </body>
 </html>
