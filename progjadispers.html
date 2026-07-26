@@ -3,265 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>evolution is my REVOLUTION</title>
 
 <style>
-
-body{
-  background:#000;
-  color:#00ff00;
-  font-family:"Courier New", monospace;
-  margin:0;
-  padding:8px;
-  overflow:hidden;
+body {
+  background-color: black;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  padding: 20px;
+  font-size: 12px;
+  text-align: left;
+  overflow-x: hidden;
 }
 
-/* LOADING */
-#loading{
-  padding:20px;
-  font-size:12px;
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  transform: scale(0.9);
+  transform-origin: top left;
 }
 
-.hidden{
-  display:none;
+/* Cursor blinking */
+.typing {
+  border-right: 2px solid #00ff00;
+  animation: blinkCursor 0.7s infinite;
+}
+@keyframes blinkCursor { 50% { border-color: transparent; } }
+
+/* Blink merah */
+.blink-red {
+  color: #ff0000;
+  animation: blinkRed 0.45s infinite;
+}
+@keyframes blinkRed {
+  0%, 100% { color: #ff0000; }
+  50% { color: #330000; }
 }
 
-/* RUNNING TEXT */
-#runningText{
-  width:100%;
-  overflow:hidden;
-  white-space:nowrap;
-  margin-bottom:10px;
-  font-size:12px;
-  font-weight:bold;
-  color:#ff0000;
-  text-shadow:0 0 5px #ff0000;
+/* PRIORITAS — teks kuning berkedip (menonjol) */
+.blink-prioritas {
+  color: #ffff00;
+  font-weight: bold;
+  animation: blinkPrior 0.6s infinite;
+}
+/* PNS kuning (tanpa animasi) */
+.yellow {
+  color: #00ff00;
+  font-weight: bold;
 }
 
-#runningText span{
-  display:inline-block;
-  padding-left:100%;
-  animation:runText 15s linear infinite;
+.hidden { display: none; }
+
+/* Tombol bawah */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+button {
+  background-color: black;
+  color: #00ff00;
+  border: 1px solid #00ff00;
+  padding: 8px 20px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin: 0 10px;
+  transition: 0.3s;
+  font-family: "Courier New", monospace;
+}
+button:hover {
+  background-color: #00ff00;
+  color: black;
 }
 
-@keyframes runText{
-  from{
-    transform:translateX(0);
+/* Tombol download merah */
+button.download-btn {
+  color: #ff0000;
+  border-color: #ff0000;
+  animation: blinkRed 0.5s infinite;
+}
+button.download-btn:hover {
+  background-color: #ff0000;
+  color: black;
+  animation: none;
+}
+
+/* Running text */
+#runningText {
+  color: #00ff00;
+  white-space: nowrap;
+  overflow: hidden;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+#runningText span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: runText 15s linear infinite;
+}
+@keyframes runText {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* RESPONSIVE SUPAYA MUAT 1 BARIS */
+pre {
+  white-space: pre !important;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+#terminal { font-size: 10px !important; }
+
+@media (max-width: 1100px) { #terminal { font-size: 8px !important; } }
+@media (max-width: 800px)  { #terminal { font-size: 7px !important; } }
+@media (max-width: 600px)  { #terminal { font-size: 6px !important; } }
+
+/* KOMANDO ATAS merah berkedip */
+.blink-komando {
+  color: #ff0000;
+  font-weight: bold;
+  animation: blinkKomando 0.45s infinite;
+}
+
+@keyframes blinkKomando {
+  0%,100% {
+    color: #ff0000;
+    text-shadow: 0 0 8px #ff0000;
   }
-  to{
-    transform:translateX(-100%);
-  }
-}
-
-/* TERMINAL */
-#terminalBox{
-  padding:10px;
-  height:78vh;
-  overflow:hidden;
-  position:relative;
-}
-
-pre{
-  margin:0;
-  white-space:pre;
-  line-height:1.5;
-  font-size:12px;
-  font-family:"Courier New", monospace;
-}
-
-/* CURSOR */
-.typing{
-  border-right:2px solid #00ff00;
-  animation:blinkCursor .7s infinite;
-}
-
-@keyframes blinkCursor{
-  50%{
-    border-color:transparent;
-  }
-}
-
-/* BLINK MERAH */
-.blink-red{
-  color:#ff0000;
-  animation:blinkRed .5s infinite;
-}
-
-@keyframes blinkRed{
-  0%,100%{
-    color:#ff0000;
-  }
-
-  50%{
-    color:#330000;
-  }
-}
-
-/* BUTTON */
-.button-container{
-  text-align:center;
-  margin-top:15px;
-}
-
-button{
-  background:#000;
-  color:#00ff00;
-  border:1px solid #00ff00;
-  padding:8px 18px;
-  margin:0 5px;
-  cursor:pointer;
-  border-radius:8px;
-  font-family:"Courier New", monospace;
-  font-size:12px;
-}
-
-button:hover{
-  background:#00ff00;
-  color:#000;
-}
-
-.download-btn{
-  border-color:#ff0000;
-  color:#ff0000;
-  animation:blinkRed .5s infinite;
-}
-
-.download-btn:hover{
-  background:#ff0000;
-  color:#000;
-}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-
-  pre{
-    font-size:10px;
-  }
-}
-
-@media(max-width:600px){
-
-  pre{
-    font-size:8px;
-  }
-}
-table{
-  border-collapse:collapse;
-  width:max-content;
-  min-width:100%;
-  color:#00ff00;
-  font-size:12px;
-}
-
-th,td{
-  border:1px solid #00ff00;
-  padding:6px 10px;
-  text-align:center;
-  white-space:nowrap;
-}
-
-th{
-  background:#001100;
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-td.nama{
-  text-align:left;
-}
-.title-main{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
-  font-size:25px;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-
-.title-sub{
-  text-align:center;
-  font-size:25px;
-  margin-bottom:25px;
-  font-weight:bold;
-}
-
-.info-text{
-  font-size:10px;
-  line-height:1.6;
-  margin-bottom:15px;
-}
-.info-row{
-  display:flex;
-  gap:10px;
-}
-
-.label{
-  width:50px;
-}
-
-.value{
-  flex:1;
-}
-thead th{
-  position:sticky;
-  top:0;
-  background:#001100;
-  z-index:10;
-}
-#terminal{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-}
-
-#headerArea{
-  flex:none;
-  background:#000;
-  padding-bottom:10px;
-}
-
-#tableArea{
-  flex:1;
-  overflow:auto;
-  border-top:1px solid #00ff00;
-  border-bottom:1px solid #00ff00;
-  min-height:0;
-}
-#tableArea table{
-  margin-bottom:1px;
-}
-
-#tableArea thead th{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:#001100;
-
-  border-top:1px solid #00ff00;
-  border-bottom:1px solid #00ff00;
-  border-left:1px solid #00ff00;
-  border-right:1px solid #00ff00;
-}
-.datetime-box{
-  position:absolute;
-  left:0;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:12px;
-  color:#ff0000;
-  font-family:"Courier New", monospace;
-  animation:blinkDate 0.5s infinite;
-}
-
-@keyframes blinkDate{
-  0%,100%{
-    opacity:1;
-  }
-  50%{
-    opacity:.3;
+  50% {
+    color: #330000;
+    text-shadow: none;
   }
 }
 </style>
@@ -271,323 +146,283 @@ thead th{
 
 <!-- LOADING -->
 <div id="loading">
-
-<p>>> initializing connection...</p>
-
-<p class="hidden">
->>> accessing database node...
-</p>
-
-<p class="hidden">
->>> verifying security clearance...
-</p>
-
-<p class="hidden">
->>> clearance level verified ✓
-</p>
-
-<p class="hidden">
->>> retrieving iuran warga RT 001...
-</p>
-
+  <p>>> initializing connection...</p>
+  <p class="hidden">>>> accessing database node...</p>
+  <p class="hidden">>>> verifying security clearance...</p>
+  <p class="hidden">>>> clearance level verified ✓</p>
+  <p class="hidden">>>> retrieving jabatan kosong...</p>
 </div>
 
 <!-- MAIN -->
 <div id="main" class="hidden">
-<div id="runningText">
-<span>
-DATA INI BERSIFAT RAHASIA - HANYA UNTUK LINGKUNGAN RT 001 RW 001
-</span>
+  <div id="runningText">
+    <span>⚠ DATA INI BERSIFAT RAHASIA - HANYA UNTUK LINGKUNGAN PUSLAT KODIKLATAU ⚠ </span>
+  </div>
+  <pre id="terminal" class="typing"></pre>
 </div>
 
-<div id="terminalBox">
-<div id="terminal" class="typing"></div>
-</div>
-
-</div>
-
-<!-- BUTTON -->
+<!-- TOMBOL -->
+<div class="button-container hidden" id="buttons">  
+  <button onclick="window.location.href='database.html'">back to DATABASE</button>
+  <button class="download-btn" onclick="downloadFile()">
+  ⬇ DOWNLOAD PDF
 </button>
-<button onclick="window.location.href='https://rt001-monitoring.github.io/database'">
-back to DATABASE
-</button>
-<button class="download-btn" onclick="downloadFile()">
-⬇ DOWNLOAD PDF
-</button>
-
 </div>
 
 <script>
+/* ================== LOADING ================== */
+const lines = document.querySelectorAll("#loading p");
+let delay = 800;
 
-/* ================= LOADING ================= */
-
-const lines =
-document.querySelectorAll("#loading p");
-
-let delay = 700;
-
-lines.forEach((line,idx)=>{
-
-  setTimeout(()=>{
-
+lines.forEach((line, idx) => {
+  setTimeout(() => {
     line.classList.remove("hidden");
-
-    if(idx === lines.length - 1){
-
-      setTimeout(()=>{
-
-        document.getElementById("loading")
-        .style.display = "none";
-
-        document.getElementById("main")
-        .classList.remove("hidden");
-
+    if (idx === lines.length - 1) {
+      setTimeout(() => {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("main").classList.remove("hidden");
         startTyping();
-
-      },1000);
-
+      }, 1000);
     }
-
-  },delay * (idx + 1));
-
+  }, delay * (idx + 1));
 });
 
-
-
-/* ================= FIX WIDTH ================= */
-
-function fix(text,len){
-
-  text = String(text || "");
-
-  if(text.length > len){
-
-    return text.substring(0,len-1) + " ";
-
-  }
-
-  return text.padEnd(len," ");
-
-}
-
-/* ================= DOWNLOAD PDF ================= */
-
-async function downloadFile(){
-
-  try{
-
+/* ================== FETCH DATA JABATAN KOSONG ================== */
+async function fetchData() {
+  try {
     const url =
-    "https://script.google.com/macros/s/AKfycbyWOEHcGgdQzfju_kbsvFbO6chxbZY-8eW29rNnD6xipU1IZSx3kOeYZzfZPyWcWRVq/exec";
+      "https://script.google.com/macros/s/AKfycbx2zKspURm924azk_B4Rboul1eBnbMUERQZ75_4SpHcnwPEbs0xaH4SMl67SCfVcdrp/exec";
 
-    const response = await fetch(url);
-
-    if(!response.ok){
+    const res = await fetch(url);
+    if (!res.ok) {
       throw new Error("HTTP ERROR");
     }
+    const text = await res.text();
+    console.log(text);
+    return JSON.parse(text);
+  } catch(err) {
+    console.error(err);
+    return [];
+  }
+}
 
-    const base64 = await response.text();
+/* ================== DOWNLOAD PDF ================== */
+async function downloadFile() {
 
-    const binary = atob(base64);
+  try {
 
-    const bytes = new Uint8Array(binary.length);
+    const url =
+      "https://script.google.com/macros/s/AKfycbyWOEHcGgdQzfju_kbsvFbO6chxbZY-8eW29rNnD6xipU1IZSx3kOeYZzfZPyWcWRVq/exec";
 
-    for(let i=0;i<binary.length;i++){
-
-      bytes[i] = binary.charCodeAt(i);
-
-    }
-
-    const blob = new Blob([bytes],{
-      type:"application/pdf"
-    });
-
-    const blobUrl =
-    URL.createObjectURL(blob);
-
-    const link =
-    document.createElement("a");
-
-    link.href = blobUrl;
-
-    link.download =
-    "iuran_rt001.pdf";
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(blobUrl);
-
-  }catch(err){
+    const response = await fetch(url);
+if (!response.ok) {
+  throw new Error("HTTP ERROR");
+}
+const base64 = await response.text();
+const binary = atob(base64);
+const bytes = new Uint8Array(binary.length);
+for (let i = 0; i < binary.length; i++) {
+  bytes[i] = binary.charCodeAt(i);
+}
+const blob = new Blob([bytes], {
+  type: "application/pdf"
+});
+const blobUrl = URL.createObjectURL(blob);
+const link = document.createElement("a");
+link.href = blobUrl;
+link.download = "jabatan_kosong.pdf";
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+URL.revokeObjectURL(blobUrl);
+  } catch(err) {
 
     alert("DOWNLOAD FAILED");
-
     console.error(err);
-
   }
-
 }
 
-/* ================= START ================= */
+/* ================== EFEK KETIK ================== */
+async function startTyping() {
 
-function startTyping(){
+  const terminal = document.getElementById("terminal");
 
-  const terminal =
-  document.getElementById("terminal");
+  const textBefore = `
+====================================
+| FILE: JABATAN KOSONG PUSLAT       |
+| CLASSIFICATION: `;
 
-  terminal.innerHTML +=
-`----------------------------------------------------------------------------------------------------------
-FILE           : IURAN WARGA RT 001
-CLASSIFICATION : `;
+  const rahasia = "RAHASIA";
 
-  const span =
-  document.createElement("span");
+  const textAfterTop = `
+====================================
+`;
 
-  span.className = "blink-red";
+  const tableHeader = `
 
-  terminal.appendChild(span);
+--------------------------------------------------------------------------------------------------------------
+`;
 
-  const txt = "RAHASIA";
+  const footer = `
+--------------------------------------------------------------------------------------------------------------
+* Data jabatan kosong diperbarui otomatis dari Spreadsheet.
+* Informasi hanya untuk lingkungan PUSLAT KODIKLATAU.
+--------------------------------------------------------------------------------------------------------------
+`;
 
-  let i = 0;
+  let i = 0, step = 0;
+  let spanRahasia;
 
-  function ketik(){
+  function type() {
 
-    if(i < txt.length){
-
-      span.textContent += txt.charAt(i);
-
-      i++;
-
-      setTimeout(ketik,50);
-
-    }else{
-
-      tampilkanData();
-
+    if (step === 0) {
+      if (i < textBefore.length) {
+        terminal.textContent += textBefore.charAt(i++);
+        return setTimeout(type, 1);
+      }
+      step = 1;
+      i = 0;
+      spanRahasia = document.createElement("span");
+      spanRahasia.classList.add("blink-red");
+      terminal.appendChild(spanRahasia);
+      return type();
     }
 
+    if (step === 1) {
+      if (i < rahasia.length) {
+        spanRahasia.textContent += rahasia.charAt(i++);
+        return setTimeout(type, 30);
+      }
+      step = 2;
+      i = 0;
+      return type();
+    }
+
+    if (step === 2) {
+      if (i < textAfterTop.length) {
+        terminal.innerHTML += textAfterTop.charAt(i++);
+        return setTimeout(type, 1);
+      }
+      step = 3;
+      terminal.innerHTML += tableHeader;
+      return tampilkanData();
+    }
   }
 
-  ketik();
-
+  type();
 }
 
-/* ================= TAMPILKAN DATA ================= */
+/* ================== TAMPILKAN DATA ================== */
+async function tampilkanData() {
 
-async function tampilkanData(){
+  const terminal = document.getElementById("terminal");
 
-  const terminal =
-  document.getElementById("terminal");
+  try {
 
-  terminal.innerHTML = `
-  <div id="headerArea">
+    const data = await fetchData();
+    if (!Array.isArray(data)) {
+      terminal.innerHTML += `
 
-    <div class="title-main">
-      <div id="dateTime" class="datetime-box"></div>
-      PROGRAM KERJA DINAS PERSONEL PUSLAT KODIKLATAU TH 2026
-    </div>
-    <div class="title-sub">
-      KELURAHAN PETIR KECAMATAN CIPONDOH
-    </div>
+[ DATABASE ERROR ]
+INVALID JSON RESPONSE
 
-    <div class="info-text">
+`;
 
-      <div class="info-row">
-        <span class="label">RT/RW</span>
-        <span class="value">: 001/004</span>
-      </div>
+      return;
+    }
 
-      <div class="info-row">
-        <span class="label">KEL/KEC</span>
-        <span class="value">: PETIR/CIPONDOH</span>
-      </div>
+    data.forEach(row => {
 
-      <div class="info-row">
-        <span class="label">KOTA</span>
-        <span class="value">: TANGERANG</span>
-      </div>
+      let line =
+`${String(row.no || "").padEnd(5)}${String(row.jabatan || "").padEnd(32)}${String(row.golongan || "").padEnd(10)}${String(row.pangkat || "").padEnd(26)}${String(row.korps || "").padEnd(20)}${String(row.keterangan || "")}\n`;
 
-      <div class="info-row">
-        <span class="label">PROVINSI</span>
-        <span class="value">: BANTEN</span>
-      </div>
+      if (
+        String(row.pangkat || "")
+        .toUpperCase()
+        .includes("PNS")
+      ) {
+        line = `<span class="yellow">${line}</span>`;
+      }
 
-      <div class="info-row">
-        <span class="label">UPDATE</span>
-        <span class="value">: 14/06/2026</span>
-      </div>
+      const keterangan =
+  String(row.keterangan || "")
+  .toUpperCase();
 
-    </div>
+if (keterangan.includes("KOMANDO ATAS")) {
 
-  </div>
+  terminal.innerHTML +=
+    `<span class="blink-komando">${line}</span>`;
 
-  <div id="tableArea">
+} else if (keterangan.includes("PRIORITAS")) {
 
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/1NRObnSpJG1lpYbE0nAaVmGjKImCTTUpWks1C6SH7HhQ/preview?gid=1124287032"
-      style="
-        width:100%;
-        height:100%;
-        border:none;
-        background:white;
-      ">
-    </iframe>
+  terminal.innerHTML +=
+    `<span class="blink-prioritas">${line}</span>`;
 
-  </div>
-  `;
+} else {
 
-  updateDateTime();
+  terminal.innerHTML += line;
+}
+    });
+
+    terminal.innerHTML += `
+--------------------------------------------------------------------------------------------------------------
+* Data jabatan kosong diperbarui otomatis dari Spreadsheet.
+* Informasi hanya untuk lingkungan PUSLAT KODIKLATAU.
+--------------------------------------------------------------------------------------------------------------
+`;
+
+  } catch(err) {
+
+    terminal.innerHTML += `
+
+[ SYSTEM ERROR ]
+
+${err}
+
+`;
+
+    console.error(err);
+  }
 
   terminal.classList.remove("typing");
 
   document.getElementById("buttons")
     .classList.remove("hidden");
 }
-function updateDateTime(){
 
-  const el = document.getElementById("dateTime");
+</script>
+<script>
+// Fullscreen untuk Android WebView / PWA
+function forceFullscreen() {
+  const elem = document.documentElement;
 
-  if(!el) return;
-
-  const now = new Date();
-
-  const tgl =
-  now.toLocaleDateString("id-ID");
-
-  const jam =
-  now.toLocaleTimeString("id-ID");
-
-  el.textContent = `${tgl} ${jam}`;
-
-}
-
-updateDateTime();
-setInterval(updateDateTime,1000);
-/* ================= FULLSCREEN ================= */
-
-function forceFullscreen(){
-
-  const elem =
-  document.documentElement;
-
-  if(elem.requestFullscreen){
-
-    elem.requestFullscreen()
-    .catch(()=>{});
-
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen().catch(()=>{});
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
   }
-
 }
 
-document.addEventListener("click",()=>{
+// Deteksi jika dijalankan sebagai PWA atau WebView
+function isStandalone() {
+  return (window.matchMedia('(display-mode: standalone)').matches || 
+          window.navigator.standalone === true);
+}
 
+// Jika PWA → langsung fullscreen
+if (isStandalone()) {
+  setTimeout(forceFullscreen, 500);
+}
+
+// Jika Android WebView → auto fullscreen
+if (navigator.userAgent.includes("wv") || navigator.userAgent.includes("Android")) {
+  setTimeout(forceFullscreen, 800);
+}
+
+// Browser biasa tetap butuh klik pertama
+document.addEventListener("click", function() {
   forceFullscreen();
-
-},{ once:true });
-
+}, { once: true });
 </script>
 
 </body>
