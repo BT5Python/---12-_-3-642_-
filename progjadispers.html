@@ -189,18 +189,20 @@ lines.forEach((line, idx) => {
 
 /* ================== FETCH DATA JABATAN KOSONG ================== */
 async function fetchData() {
-  try {
-    const url =
-      "https://script.google.com/macros/s/AKfycbxyhgDwAzRwcrHHSMsDYHWUlSg0Fzz5FxvmK2gjhR6sPLDG2Hcz8GGRcT1kSGElI2Oj/exec";
 
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error("HTTP ERROR");
-    }
-    const text = await res.text();
-    console.log(text);
-    return JSON.parse(text);
-  } catch(err) {
+  const url =
+  "https://script.google.com/macros/s/AKfycbxyhgDwAzRwcrHHSMsDYHWUlSg0Fzz5FxvmK2gjhR6sPLDG2Hcz8GGRcT1kSGElI2Oj/exec";
+
+  const res = await fetch(url);
+
+  const text = await res.text();
+
+  console.log(text);
+
+  alert(text);
+
+  return JSON.parse(text);
+} catch(err) {
     console.error(err);
     return [];
   }
