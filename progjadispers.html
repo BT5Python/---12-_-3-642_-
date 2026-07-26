@@ -189,19 +189,21 @@ lines.forEach((line, idx) => {
 
 /* ================== FETCH DATA JABATAN KOSONG ================== */
 async function fetchData() {
+  try {
+    const url =
+      "https://script.google.com/macros/s/AKfycbyHUmH8hW4EBZn3w43sZe6X7OMj1EAmZ4cpicWe-gzW_f8b1NOlSsbAqk89YeYw84ex/exec";
 
-  const url =
-  "https://script.google.com/macros/s/AKfycbyHUmH8hW4EBZn3w43sZe6X7OMj1EAmZ4cpicWe-gzW_f8b1NOlSsbAqk89YeYw84ex/exec";
-
-  const res = await fetch(url);
-
-  const text = await res.text();
-
-  console.log(text);
-
-  alert(text);
-
-  return JSON.parse(text);
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("HTTP ERROR");
+    }
+    const text = await res.text();
+    console.log(text);
+    return JSON.parse(text);
+  } catch(err) {
+    console.error(err);
+    return [];
+  }
 }
 
 /* ================== DOWNLOAD PDF ================== */
@@ -210,7 +212,7 @@ async function downloadFile() {
   try {
 
     const url =
-      "https://script.google.com/macros/s/AKfycbyHUmH8hW4EBZn3w43sZe6X7OMj1EAmZ4cpicWe-gzW_f8b1NOlSsbAqk89YeYw84ex/exec?download=pdf";
+      "https://script.google.com/macros/s/AKfycbyHUmH8hW4EBZn3w43sZe6X7OMj1EAmZ4cpicWe-gzW_f8b1NOlSsbAqk89YeYw84ex/exec";
 
     const response = await fetch(url);
 if (!response.ok) {
