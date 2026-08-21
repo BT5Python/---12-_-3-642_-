@@ -68,10 +68,24 @@ input, select { background:transparent; border:1px solid #00FF00; color:#00FF00;
   width: 150px; /* sesuaikan ukuran */
   height: auto;
 }
+#auth-loading {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    color: #00FF00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    z-index: 999999;
+}
 </style>
 </head>
 <body>
-
+<div id="auth-loading">
+    >>> VERIFYING SECURITY CLEARANCE...
+</div>
 <video autoplay muted loop id="bg-video"><source src="" type="video/mp4">Browser Anda tidak mendukung video tag.</video>
 <div class="recording-indicator">● RECORDING</span>
 </div>
@@ -745,7 +759,8 @@ import {
 
 import {
     getAuth,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
@@ -783,17 +798,55 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 
-/* CEK LOGIN */
+/* =====================================
+   CEK STATUS LOGIN
+===================================== */
 
 onAuthStateChanged(auth, (user) => {
 
-    if (!user) {
+    const loading = document.getElementById("auth-loading");
+
+    if (user) {
+
+        console.log("LOGIN VALID:", user.email);
+
+        // user sudah login
+        if (loading) {
+            loading.remove();
+        }
+
+    } else {
+
+        console.log("BELUM LOGIN");
 
         window.location.replace("login.html");
 
     }
 
 });
+
+
+/* =====================================
+   LOGOUT FIREBASE
+===================================== */
+
+window.logoutFirebase = async function(){
+
+    try {
+
+        await signOut(auth);
+
+        window.location.replace("login.html");
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert("Gagal logout.");
+
+    }
+
+};
 
 </script>
 </body>
