@@ -244,7 +244,7 @@ fetch(DATA_URL)
           const match = photoURL.match(/\/d\/(.*?)\//);
           if (match && match[1]) {
             // Ubah ke format Direct Access
-            photoURL = `https://drive.google.com/thumbnail?export=view&id=${match[1]}`;
+            photoURL = `https://drive.google.com/uc?export=view&id=${match[1]}`;
           }
         }
         // 2. Jika hanya ID (ID yang diekstrak dari Google Form)
